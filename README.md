@@ -1,4 +1,4 @@
-# 📊 Báo cáo nhanh hiệu quả ngành hàng (MoM)
+# Báo cáo nhanh hiệu quả ngành hàng (MoM)
 
 ## 1. Giới thiệu dự án
 
@@ -6,9 +6,9 @@ Dự án này xây dựng một **framework báo cáo nhanh hiệu quả ngành 
 nhằm hỗ trợ phân tích và trả lời nhanh các câu hỏi kinh doanh chính ngay khi có dữ liệu tháng mới.
 
 Framework được thiết kế theo hướng:
-- Xử lý dữ liệu thô và tổng hợp bằng **SQL**
+- Xử lý dữ liệu thô và tổng hợp dữ liệu nhiều tháng bằng **SQL**
 - Phân tích, tính toán chỉ số và trực quan hóa bằng **Python (Google Colab)**
-- Có thể tái sử dụng cho nhiều tháng bằng cách nhập dữ liệu mới
+- Có thể tái sử dụng cho nhiều tháng sau khi nhập dữ liệu mới
 
 ---
 
@@ -16,13 +16,22 @@ Framework được thiết kế theo hướng:
 
 Dự án tập trung trả lời các câu hỏi:
 
-- Ngành hàng đang **tăng trưởng hay suy giảm**?
-- Tăng trưởng đến từ **số lượng đơn (ADO)** hay **giá trị (AdGMV)**?
-- Động lực tăng trưởng đến từ **nhóm ngành nhỏ (LV2)** hay **sản phẩm cụ thể** nào?
-- Tăng trưởng có **bền vững** hay chỉ phụ thuộc vào một số nhóm nhỏ?
-- Ngành/sản phẩm nào đang có **xu hướng suy giảm liên tục** và cần theo dõi?
+1. **Hiệu suất tổng thể của ngành hàng (Level 1) thay đổi như thế nào qua các tháng?**  
+   → Đánh giá mức tăng/giảm ADO và AdGMV theo tháng (MoM) để nắm bức tranh tổng quan của ngành.
 
----
+2. **Những yếu tố nào đang thúc đẩy hoặc kìm hãm tăng trưởng của Level 1?**  
+   → Xác định các ngành hàng Level 2 và sản phẩm đóng góp chính vào tăng/giảm thông qua chỉ số chênh lệch và mức đóng góp ADO/GMV.
+
+3. **Tăng trưởng hiện tại có chất lượng hay không?**  
+   → Phân tích sự thay đổi cơ cấu ADO và AdGMV để phân biệt:
+   - Ngành hàng tăng trưởng tốt và có quy mô lớn  
+   - Ngành hàng tăng trưởng cao nhưng cơ cấu nhỏ  
+
+4. **Ngành hàng Level 2 nào đang có xu hướng tăng hoặc giảm rõ rệt trong 3 tháng gần nhất?**  
+   → Phát hiện các xu hướng tăng/giảm mang tính liên tục thay vì chỉ biến động ngắn hạn theo từng tháng.
+
+5. **Những sản phẩm nào cần được theo dõi sớm do có xu hướng suy giảm nhưng ảnh hưởng lớn?**  
+   → Lọc các sản phẩm suy giảm liên tiếp, mức giảm đủ lớn và có tỷ trọng đóng góp cao vào tổng ADO.
 
 ## 3. Phạm vi dữ liệu & chỉ số
 
@@ -34,10 +43,10 @@ Dự án tập trung trả lời các câu hỏi:
 ### Chỉ số chính
 - **ADO**: Số lượng đơn hàng ngày
 - **AdGMV**: Giá trị doanh thu hàng ngày
-- **MoM Growth**: Tăng trưởng tháng so với tháng trước
-- **diff_ADO / diff_AdGMV**: Chênh lệch tuyệt đối
-- **contrib_ADO / contrib_AdGMV**: Mức độ đóng góp vào tăng trưởng chung
-- **share_ADO / share_AdGMV**: Tỷ trọng cơ cấu
+- **grow_ado/ grow_gmv**: Tăng trưởng tháng so với tháng trước
+- **diff_ado / diff_gmv**: Chênh lệch tuyệt đối
+- **contrib_ado / contrib_gmv**: Mức độ đóng góp vào tăng trưởng chung
+- **share_ado / share_gmv**: Tỷ trọng cơ cấu
 
 ---
 
@@ -63,20 +72,22 @@ dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
   - Đường: ADO  
   giúp so sánh trực quan sự thay đổi về quy mô và giá trị giữa các tháng
 ---
+### Hình ảnh kết quả báo cáo 
+![Phần 1](image/phần_1.png)
 
-## 📊 PHẦN 2: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG (GROWTH DRIVER ANALYSIS)
+### PHẦN 2: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG 
 
-### 🎯 Mục tiêu
-Phân tích động lực tăng trưởng của từng ngành hàng (LV1) theo tháng (MoM), xác định:
-- Ngành hàng con (LV2) nào đóng góp chính vào tăng/giảm
+### Mục tiêu
+Phân tích động lực tăng trưởng của từng ngành hàng LV1 theo tháng (MoM), xác định:
+- Ngành hàng LV2 nào đóng góp chính vào tăng/giảm
 - Các nhóm sản phẩm cụ thể tác động lớn đến kết quả
-- Phân biệt rõ tăng trưởng **dương** và **âm** theo cả **volume (ADO)** và **value (AdGMV)**
+- Phân biệt rõ tăng trưởng **dương** và **âm** theo cả **ADO** và **AdGMV**
 
 ---
 
-### 🧠 Phương pháp phân tích
+### Phương pháp phân tích
 
-Phân tích được thực hiện theo hướng **top-down**, từ tổng quan đến chi tiết:
+Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV1 --> LV2 --> Sản phẩm), từ tổng quan đến chi tiết:
 
 **Bước 1 – Cấp LV1**
 - Tính mức tăng/giảm MoM của:
@@ -99,112 +110,101 @@ Phân tích được thực hiện theo hướng **top-down**, từ tổng quan 
 **Bước 3 – Cấp sản phẩm**
 - Với mỗi LV2 được chọn:
   - Phân tích các sản phẩm:
-    - Có mức đóng góp tăng trưởng lớn
-    - Hoặc giảm mạnh nhất trong kỳ
+    - Có mức đóng góp tăng trưởng lớn và giảm mạnh nhất trong kỳ
 - Mục tiêu:
   - Tập trung vào các sản phẩm thực sự tạo ra biến động
   - Tránh phân tích dàn trải, nhiễu insight
 
 ---
 
-### 🧹 Chuẩn hoá & gom nhóm sản phẩm
+###  Chuẩn hoá & gom nhóm sản phẩm
 
 Trong dữ liệu gốc:
 - Mỗi dòng là một **tên sản phẩm duy nhất**
 - Tuy nhiên, nhiều sản phẩm khác tên nhưng thực tế thuộc **cùng một nhóm sản phẩm**
 
 **Ví dụ:**
-- “mũ bảo hiểm 3/4 siêu đẹp”
-- “mũ bảo hiểm 3/4 bền màu sắc”  
-→ Cùng thuộc nhóm **“mũ bảo hiểm 3/4”**
+- “Mũ Bảo Hiểm Nửa Đầu 1/2 Sơn Nhám Có Lỗ Thông Gió Freesize Cho Nam Nữ”
+- “[Siêu Sale]Mũ bảo hiểm nửa đầu cao cấp cực đẹp và sang phù hợp cả nam và nữ giá rẻ ”  
+→ Cùng thuộc nhóm **“mũ bảo hiểm nửa đầu”**
 
 **Cách xử lý:**
 - Làm sạch tên sản phẩm:
-  - Loại bỏ từ noise (mô tả, quảng cáo, cảm tính)
+  - Loại bỏ từ gầy nhiễu (mô tả, quảng cáo, cảm tính)
   - Chuẩn hoá text
   - Giữ lại **5 từ khoá chính**
 - Group lại dữ liệu theo **nhóm sản phẩm đã chuẩn hoá**
 - Phân tích tăng trưởng dựa trên nhóm này thay vì tên sản phẩm thô
 
-➡️ Cách làm này giúp:
+**Cách làm này giúp:**
 - Giảm phân mảnh dữ liệu
 - Phản ánh đúng hành vi tiêu dùng
 - Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
 
----
+### Hình ảnh kết quả báo cáo 
+![Phần 2](image/phần_2.png)
 
-### 📈 Kết quả phân tích (ví dụ: Automotive)
-
-#### 2.1. Các LV2 đóng góp tăng trưởng dương
-- **ADO (Volume):**
-  - Tăng trưởng chủ yếu đến từ các LV2:
-    - Helmets
-    - Interior Accessories
-    - Exterior Accessories
-- **AdGMV (Value):**
-  - Động lực tăng trưởng tập trung ở:
-    - Bike / E-bike
-    - Interior Accessories
-    - Exterior Accessories
-
-Biểu đồ `ADO Diff` và `GMV Diff` cho thấy:
-- Một số LV2 đóng góp vượt 100% tổng tăng trưởng
-- Tăng trưởng thực tế bị bù trừ bởi các nhóm giảm
-
----
-
-#### 2.2. Các LV2 tăng trưởng âm
-- Các LV2 suy giảm chính:
-  - Motorbike Accessories
-  - Motorbike Spare Parts
-  - Automotive Oils & Lubes
-- Nhóm này chiếm tỷ trọng lớn trong tổng mức giảm MoM
-
-Phân tích xu hướng 3 tháng cho thấy:
-- Một số LV2 có xu hướng:
-  - Giảm liên tục
-  - Hoặc phục hồi yếu sau khi giảm
-
----
-
-### 💡 Insight chính
-- Tăng trưởng của LV1 không đến từ toàn bộ LV2, mà tập trung vào một số ngành con cụ thể
-- Có sự lệch pha giữa tăng trưởng volume (ADO) và value (AdGMV)
-- Việc chuẩn hoá và gom nhóm sản phẩm giúp:
-  - Nâng cao chất lượng insight
 ---
 
 ### Phần 3: Chất lượng tăng trưởng
 
-- Phân tích thay đổi cơ cấu:
+- Phân tích thay đổi tỷ trọng qua các tháng:
   - ADO share
   - AdGMV share
 - Phân nhóm LV2:
-  - **Quy mô lớn & tăng trưởng tốt**  
+  - **Tỷ trọng lớn & tăng trưởng nhanh**  
     `diff_ADO lớn + ado_share lớn`
-  - **Tăng trưởng cao nhưng base nhỏ**  
+  - **Tỷ trọng nhỏ & tăng trưởng nhanh**  
     `diff_ADO lớn + ado_share nhỏ`
-  - **Suy giảm nhanh**  
+  - **Tỷ trọng lớn & tăng trưởng chậm/ suy giảm** 
     `% growth âm mạnh MoM`
 
 **Output**:
-- Scatter plot (quy mô vs tăng trưởng)
-- Bảng phân nhóm LV2
+- Biểu đồ heatmap tỷ trọng theo tháng
+- Kết hợp tỷ trọng và tăng trưởng để phân tích
 
 ---
+### Hình ảnh kết quả báo cáo 
+![Phần 3](image/phần_3.png)
 
-### Phần 4: Xu hướng tăng trưởng (3 tháng)
+### Phần 4: Xu hướng tăng trưởng 
 
 - Phân tích xu hướng tăng/giảm của LV2
 - Phân tích xu hướng sản phẩm theo 3 lớp:
-  - **Lớp 1**: `diff_ADO < 0` liên tiếp ≥ 2 tháng gần nhất
-  - **Lớp 2**: Tổng mức giảm ADO lớn (`abs(sum(diff_ADO))`)
-  - **Lớp 3**: Sản phẩm có `max(share_ADO)` lớn
+  - **Lớp 1**: `diff_ado/gmv âm` liên tiếp ≥ 2 tháng gần nhất
+  - **Lớp 2**: Tổng mức giảm ADO/GMV lớn (`abs(sum(diff_ado/gmv))`)
+  - **Lớp 3**: Sản phẩm có `max(share_ado/gmv)` lớn
 
 **Output**:
-- Line chart xu hướng
-- Danh sách sản phẩm rủi ro / cơ hội
+- Danh sách ngành hàng và sản phẩm rủi ro / cơ hội
 
+### Hình ảnh kết quả báo cáo 
+![Phần 4](image/phần_4.png)
 ---
 
 ## 5. Cấu trúc repository
+📁 quick-category-performance-report/
+│
+├── 📄 README.md
+├── 📁 sql/
+│   ├── 01_clean_data.sql
+│   ├── 02_agg_level2.sql
+│   └── 03_agg_items.sql
+├── 📁 notebooks/
+│   ├── 01_overview.ipynb
+│   ├── 02_growth_driver.ipynb
+│   ├── 03_quality_growth.ipynb
+│   └── 04_trend_by_months.ipynb
+├── 📁 src/
+│   ├── metrics.py
+│   ├── charts.py
+│   └── utils.py
+├── 📁 data/ (sample masked data)
+├── 📁 outputs/
+│   ├── charts/
+│   └── tables/
+├── requirements.txt
+
+## 6. Kết quả đạt được
+- Giảm thiểu thời gian làm báo cáo từ 40p - xuống còn 10-15p ( tùy vào số lượng dòng file data)
+- Tăng độ chính xác so với thao tác thủ công
