@@ -71,7 +71,7 @@ dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
   - Cột: AdGMV
   - Đường: ADO  
   giúp so sánh trực quan sự thay đổi về quy mô và giá trị giữa các tháng
----
+
 ### Hình ảnh kết quả báo cáo 
 ![Phần 1](image/phần_1.png)
 
@@ -163,7 +163,7 @@ Trong dữ liệu gốc:
 - Biểu đồ heatmap tỷ trọng theo tháng
 - Kết hợp tỷ trọng và tăng trưởng để phân tích
 
----
+
 ### Hình ảnh kết quả báo cáo 
 ![Phần 3](image/phần_3.png)
 
@@ -183,28 +183,35 @@ Trong dữ liệu gốc:
 ---
 
 ## 5. Cấu trúc repository
-📁 quick-category-performance-report/
+```text
+quick-category-performance-report/
 │
-├── 📄 README.md
-├── 📁 sql/
+├── README.md
+├── sql/
 │   ├── 01_clean_data.sql
 │   ├── 02_agg_level2.sql
 │   └── 03_agg_items.sql
-├── 📁 notebooks/
+│
+├── notebooks/
 │   ├── 01_overview.ipynb
 │   ├── 02_growth_driver.ipynb
 │   ├── 03_quality_growth.ipynb
-│   └── 04_trend_by_months.ipynb
-├── 📁 src/
+|   ├── 04-trend_by_lv2.ipynb
+│   └── 05_trend_by_items.ipynb
+│
+├── src/
 │   ├── metrics.py
 │   ├── charts.py
 │   └── utils.py
-├── 📁 data/ (sample masked data)
-├── 📁 outputs/
+│
+├── data/          # sample masked data
+├── outputs/
 │   ├── charts/
 │   └── tables/
-├── requirements.txt
-
+│
+└── requirements.txt
+```
 ## 6. Kết quả đạt được
-- Giảm thiểu thời gian làm báo cáo từ 40p - xuống còn 10-15p ( tùy vào số lượng dòng file data)
-- Tăng độ chính xác so với thao tác thủ công
+- Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
+- Giảm sai sót so với thao tác thủ công
+- Tạo framework phân tích có thể tái sử dụng cho các kỳ tiếp theo
