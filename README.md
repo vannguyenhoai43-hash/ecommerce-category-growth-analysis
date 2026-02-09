@@ -72,9 +72,10 @@ dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
   - Đường: ADO  
   giúp so sánh trực quan sự thay đổi về quy mô và giá trị giữa các tháng
 
-### Hình ảnh kết quả báo cáo 
+##### Hình ảnh kết quả báo cáo 
 ![Phần 1](image/phần_1.png)
 
+---
 ### PHẦN 2: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG 
 
 ### Mục tiêu
@@ -141,7 +142,7 @@ Trong dữ liệu gốc:
 - Phản ánh đúng hành vi tiêu dùng
 - Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
 
-### Hình ảnh kết quả báo cáo 
+##### Hình ảnh kết quả báo cáo 
 ![Phần 2](image/phần_2.png)
 
 ---
@@ -164,9 +165,10 @@ Trong dữ liệu gốc:
 - Kết hợp tỷ trọng và tăng trưởng để phân tích
 
 
-### Hình ảnh kết quả báo cáo 
+##### Hình ảnh kết quả báo cáo 
 ![Phần 3](image/phần_3.png)
 
+---
 ### Phần 4: Xu hướng tăng trưởng 
 
 - Phân tích xu hướng tăng/giảm của LV2
@@ -178,7 +180,7 @@ Trong dữ liệu gốc:
 **Output**:
 - Danh sách ngành hàng và sản phẩm rủi ro / cơ hội
 
-### Hình ảnh kết quả báo cáo 
+##### Hình ảnh kết quả báo cáo 
 ![Phần 4](image/phần_4.png)
 ---
 
