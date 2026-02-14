@@ -23,4 +23,9 @@ def load_data(month="2024-09"):
     df_cur_items = df_source_items[df_source_items["year_month"] == month]
     df_cur_lv2 = df_source_lv2[df_source_lv2["year_month"] == month]
 
-    return df_cur_lv2, df_cur_items
+      return {
+        "source_lv2": df_source_lv2,
+        "source_items": df_source_items,
+        "cur_lv2": df_cur_lv2,
+        "cur_items": df_cur_items
+    }
