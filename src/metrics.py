@@ -255,7 +255,25 @@ def highest_contrib(df, metric):
         result.append(pd.concat([top3, others_row], ignore_index=True))
 
     return pd.concat(result, ignore_index=True)
+# Hàm top items 
+def top3_items (df,metric):
+  if metric == 'ado':
+        diff_col = 'diff_ado'
 
+  elif metric == 'gmv':
+        diff_col = 'diff_gmv'
+  else:
+        raise ValueError("Invalid metric. Must be 'ado' or 'gmv'.")
+
+  result= (
+                df.sort_values(by =['level1_kpi_category',diff_col], ascending=[True,False])
+                .groupby(['level2_kpi_category'])
+                .head(3)
+  )
+  #result[contrib_col] = result[contrib_col].apply(format_pct)
+  result = result [['level1_kpi_category','level2_kpi_category', 'keywords', diff_col]]
+
+  return  result
 
 
 """## Phần 3: Chất lượng tăng trưởng"""
