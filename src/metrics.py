@@ -274,7 +274,31 @@ def top3_items (df,metric):
   result = result [['level1_kpi_category','level2_kpi_category', 'keywords', diff_col]]
 
   return  result
+# Hàm tăng trưởng âm
+def top3_items_low (df,metric):
+  if metric == 'ado':
+        contrib_col = 'contrib_ado'
+        diff_col = 'diff_ado'
+        col_M = 'ADO_M'
+        col_M_1 = 'ADO_M_1'
+  elif metric == 'gmv':
+        contrib_col = 'contrib_gmv'
+        diff_col = 'diff_gmv'
+        col_M = 'AdGMV_M'
+        col_M_1 = 'AdGMV_M_1'
+  else:
+        raise ValueError("Invalid metric. Must be 'ado' or 'gmv'.")
 
+  result = df.sort_values([col_M_1], ascending= False).head(20)
+  result= (
+                df.sort_values(by =['level1_kpi_category',diff_col], ascending=[True,True])
+                .groupby(['level2_kpi_category'])
+                .head(3)
+  )
+
+  result = result [['level1_kpi_category','level2_kpi_category', 'keywords',col_M,col_M_1, diff_col, contrib_col]]
+
+  return  result
 
 """## Phần 3: Chất lượng tăng trưởng"""
 
