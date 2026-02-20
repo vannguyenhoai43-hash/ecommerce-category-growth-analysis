@@ -445,4 +445,445 @@ def quantile_share_diff_3 (df,lv1):
   lines.append(f"- GMV: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_gmv_text}.")
   return lines
 """## Phần 4: Xu hướng ngành hàng"""
+# Hàm xu hướng tăng:
+def trend_grow(df,lv1):
+  lines =[]
+  df_cat = df[df['level1_kpi_category']==lv1]
+  lines.append(f"**{lv1}** \n\n")
+  #----------ADO
+  # Tạo pivot
+  df_month_ado = (df_cat
+                  .pivot_table(
+                      index = 'level2_kpi_category',
+                      columns = 'year_month',
+                      values = 'diff_ado',
+                      aggfunc = 'sum'
+                  ))
+  df_month_gmv = (df_cat
+                  .pivot_table(
+                      index = 'level2_kpi_category',
+                      columns = 'year_month',
+                      values = 'diff_gmv',
+                      aggfunc = 'sum'
+                  ))
+  # Text
+  ado_text =[]
+  for lv2, row in df_month_ado.iterrows():
+    if not (row.dropna()>0).all():
+      continue
+    note = [
+        f"T{int(m.split('-')[1])} {row[m]:+.2f} ADO"
+        for m in row.index
+    ]
+    ado_text.append(f"**{lv2}** ({', '.join(note)})")
+  if ado_text:
+    lines.append(
+    f" - **ADO**: Ngành hàng có xu hướng tăng "
+    f'{", ".join(ado_text)}.'
+    )
+  else:
+    lines.append(
+    f"**ADO**: Không có ngành hàng nào có xu hướng tăng."
+    )
+  #----------GMV
+  gmv_text = []
+  for lv2,row in df_month_gmv.iterrows():
+    if not (row.dropna() >0).all():
+      continue
+    note_gmv = [
+        f"T{int(m.split('-')[1])} {row[m]:+.2f} GMV"
+        for m in row.index
+    ]
+    gmv_text.append(f"**{lv2}** ({', '.join(note_gmv)})")
+  if gmv_text:
+            lines.append(
+            f" - **GMV**: Ngành hàng có xu hướng tăng "
+            f'{", ".join(gmv_text)}.'
+            )
+  else:
+            lines.append(
+            f"**GMV**: Không có ngành hàng nào có xu hướng tăng."
+            )
+  return lines
+# Hàm xu hướng giảm
+def trend_down(df,lv1):
+  lines = []
+  df_cat = df[df['level1_kpi_category']==lv1]
+  lines.append(f'**{lv1}** \n\n')
 
+  #ADO
+  df_month_ado = (df_cat
+                  .pivot_table(
+                      index ='level2_kpi_category',
+                      columns = 'year_month',
+                      values = 'diff_ado',
+                      aggfunc='sum'
+                  ))
+  ado_text =[]
+  for lv2,row in df_month_ado.iterrows():
+    if not (row.dropna()<0).all():
+      continue
+    note = [
+        f'T{int(m.split('-')[1])} {row[m]:+.2f} ADO'
+        for m in row.index # lấy cột trong bảng pivot là các tháng
+    ]
+    ado_text.append(f"**{lv2}** ({', '.join(note)})")
+  if ado_text:
+    lines.append(
+    f" - **ADO**: Ngành hàng có xu hướng giảm "
+    f"{', '.join(ado_text)}.\n\n"
+    )
+  else:
+    lines.append(
+        f" - **ADO**: Không có ngành hàng nào có xu hướng giảm.\n\n"
+    )
+  # GMV
+  df_month_gmv = (df_cat
+                  .pivot_table(
+                      index = 'level2_kpi_category',
+                      columns= 'year_month',
+                      values = 'diff_gmv',
+                      aggfunc = 'sum'
+                  ))
+  gmv_text =[]
+  for lv2, row in df_month_gmv.iterrows():
+      if not (row.dropna()<0).all():
+       continue
+      note_gmv = [
+          f'T{int(m.split("-")[1])} {row[m]:+.2f} GMV'
+          for m in row.index
+      ]
+      gmv_text.append(f"**{lv2}** ({', '.join(note_gmv)})")
+
+  #code
+  if gmv_text:
+    lines.append(
+        f" - **GMV**: Ngành hàng có xu hướng giảm "
+        f"{', '.join(gmv_text)}.\n\n "
+    )
+  else:
+    lines.append(
+         f" - **GMV**: Không có ngành hàng nào có xu hướng giảm. "
+    )
+  return lines
+
+"""## Phần 5: Xu hướng sản phẩm"""
+
+### Hàm lọc bớt items diff<0
+def items_keep (df,col):
+
+  if col =='ado':
+     col = 'ADO_M'
+     col_M_1 = 'ADO_M_1'
+     min_val = 0.05
+
+  elif col =='gmv':
+    col = 'AdGMV_M'
+    col_M_1 = 'AdGMV_M_1'
+    min_val = 1
+  else:
+    raise ValueError('must be ado or gmv')
+
+ # lọc min
+  df= df[df[col] > min_val].copy()
+
+ # tính quantile và diff
+  q_items = df[col].quantile(0.3)
+
+  df['diff'] = df[col] - df[col_M_1]
+
+  items_list = df[
+      (df[col] >= q_items)
+      |
+      (df['diff'] <= 0)
+  ]['keywords'].unique()
+
+  #df_items = df.loc[df['keywords'].isin(items_list)].copy()
+
+  return items_list
+# Hàm total share
+def total_share_items (df,col):
+  if col == 'ado':
+     col = 'ADO_M'
+     col_m1 = 'ADO_M_1'
+     col_share = 'share_ado'
+  elif col == 'gmv':
+       col = 'AdGMV_M'
+       col_m1 = 'AdGMV_M_1'
+       col_share = 'share_gmv'
+  else:
+    raise ValueError('metric must be ado or gmv')
+
+  df = df.copy()
+  df['total'] = (df
+                 .groupby(['year_month','level2_kpi_category'])[col]
+                 .transform('sum')
+                )
+  df[col_share] = df[col]/df['total']
+  return df
+# Hàm lọc items có xu hướng giảm:
+def items_trend_down (df_items_diff,df_items_share,metric):
+
+  if metric =='ado':
+    diff_col = 'diff_ado'
+    share_col = 'share_ado'
+  elif metric =='gmv':
+    diff_col = 'diff_gmv'
+    share_col = 'share_gmv'
+  else:
+    raise ValueError('metric must be ado or gmv')
+
+  # bảng pivot diff theo tháng
+  pivot_grow = (df_items_diff
+                .pivot_table(
+                    index = 'keywords',
+                    columns='year_month',
+                    values = diff_col,
+                    aggfunc='sum'
+                )
+                .sort_index(axis=1)
+  )
+
+  month_cols = pivot_grow.columns[1:].tolist()
+  pivot_grow = (pivot_grow[month_cols].reset_index())
+
+  # bảng pivot share theo tháng
+  pivot_share  = (df_items_share
+                .pivot_table(
+                    index = ['level1_kpi_category','level2_kpi_category','keywords'],
+                    columns='year_month',
+                    values = share_col,
+                    aggfunc='sum'
+                )
+  )
+
+  #Lấy cột max_share
+  share_base_df = (
+        pivot_share
+        .iloc[:, -3:]
+        .max(axis=1)
+        .rename('share_max_3m')
+        .reset_index()
+    )
+  # Gộp hai bảng lại
+  share_diff_df =  pivot_grow.merge(
+                    share_base_df,
+                    on ='keywords',
+                    how='inner'
+  )
+  month_cols = [
+        c for c in share_diff_df.columns
+        if c not in ['keywords', 'level2_kpi_category', 'share_max_3m','level1_kpi_category']
+    ]
+
+  # Tính decline
+  share_diff_df= share_diff_df.assign(
+      decline_score = share_diff_df[month_cols].abs().sum(axis=1)
+  )
+
+  # Tính quantile
+  q_share = share_diff_df['share_max_3m'].quantile(0.7)
+  q_decline = share_diff_df['decline_score'].quantile(0.7)
+
+  # lọc qua các điều kiện
+  df_keep = share_diff_df[
+      (share_diff_df['share_max_3m']>q_share) &
+      (share_diff_df[month_cols]<0).all(axis=1) &
+      (share_diff_df['decline_score']>q_decline)
+  ]
+
+  result = (df_keep
+            .sort_values(['level2_kpi_category','decline_score'],ascending=[True,False])
+            .groupby('level2_kpi_category')
+            .head(5)
+  )
+
+  return result[
+    ['level1_kpi_category','level2_kpi_category','keywords', 'share_max_3m', 'decline_score']
+      ]
+# Hàm lọc bớt items diff>0 và items_list
+def items_keep_grow (df,col):
+
+  if col =='ado':
+     col = 'ADO_M'
+     col_M_1 = 'ADO_M_1'
+     min_val = 0.05
+
+  elif col =='gmv':
+    col = 'AdGMV_M'
+    col_M_1 = 'AdGMV_M_1'
+    min_val = 1
+  else:
+    raise ValueError('must be ado or gmv')
+
+ # lọc min
+  df= df[df[col] > min_val].copy()
+
+ # tính quantile và diff
+  q_items = df[col].quantile(0.3)
+
+  df['diff'] = df[col] - df[col_M_1]
+
+  items_list = df[
+      (df[col] >= q_items)
+      |
+      (df['diff'] >= 0)
+  ]['keywords'].unique()
+
+  #df_items = df.loc[df['keywords'].isin(items_list)].copy()
+
+  return items_list
+# Hàm lọc items có xu hướng tăng:
+def items_trend_grow (df_items_diff,df_items_share,metric):
+  if metric =='ado':
+    diff_col = 'diff_ado'
+    share_col = 'share_ado'
+  elif metric =='gmv':
+    diff_col = 'diff_gmv'
+    share_col = 'share_gmv'
+  else:
+    raise ValueError('metric must be ado or gmv')
+  # bảng pivot diff theo tháng
+  pivot_diff = (df_items_diff
+                .pivot_table(
+                    index = 'keywords',
+                    columns='year_month',
+                    values = diff_col,
+                    aggfunc='sum'
+                )
+  )
+  month_cols = pivot_diff.columns[1:].tolist()
+  pivot_diff = (pivot_diff[month_cols].reset_index())
+
+  # bảng pivot share theo tháng
+  pivot_share  = (df_items_share
+                .pivot_table(
+                    index = ['keywords','level2_kpi_category','level1_kpi_category'],
+                    columns='year_month',
+                    values = share_col,
+                    aggfunc='sum'
+                )
+  )
+
+  #Lấy cột max_share
+  share_base_df = (
+                   pivot_share.iloc[:,-3:].max(axis=1)
+                   .rename('share_max_3m')
+                   .reset_index()
+                  )
+
+  # Gộp hai bảng lại
+  share_diff_df =  pivot_diff.merge(
+                    share_base_df,
+                    on ='keywords',
+                    how='inner'
+  )
+  month_cols=[
+        c for c in share_diff_df.columns
+        if c not in ['keywords','level2_kpi_category','share_max_3m','level1_kpi_category']
+  ]
+
+  # Tính increase
+  share_diff_df= share_diff_df.assign(
+      increase_score = share_diff_df[month_cols].abs().sum(axis=1)
+  )
+
+  # Tính quantile
+  q_share = share_diff_df['share_max_3m'].quantile(0.7)
+  q_increase = share_diff_df['increase_score'].quantile(0.7)
+
+  # lọc qua các điều kiện
+  df_keep = share_diff_df[
+      (share_diff_df['share_max_3m']>q_share) &
+      (share_diff_df[month_cols]>0).all(axis=1) &
+      (share_diff_df['increase_score']>q_increase)
+  ]
+
+  result = (df_keep
+            .sort_values(['level2_kpi_category','increase_score'],ascending=[True,False])
+            .groupby('level2_kpi_category')
+            .head(5)
+  )
+  return result[
+    ['level1_kpi_category','level2_kpi_category','keywords', 'share_max_3m', 'increase_score']
+]
+## tableview grow
+def table_view_grow (df):
+  df_table = (
+    df
+    .assign(
+        product_with_diff=lambda x:
+        x['keywords'] + " (" + x['increase_score'].apply(format_num) + ")"
+    )
+    .groupby(['level1_kpi_category','level2_kpi_category'])['product_with_diff']
+    .apply(lambda x: ", ".join(x))
+    .reset_index()
+    .sort_values(['level1_kpi_category','level2_kpi_category'],ascending=[True,True])
+    )
+
+  df_table.columns = ['Level 1','Level 2', 'Sản phẩm tiêu biểu| ΔADO lũy kế']
+
+  # format bảng
+  result = (
+    df_table
+    .style
+    .set_properties(**{
+        'white-space': 'pre-wrap',
+        'text-align': 'left',
+        'vertical-align': 'top',
+        'border': '1px solid #ccc'
+    })
+    .set_table_styles([
+        {'selector': 'th', 'props': [
+            ('border', '1px solid #ccc'),
+            ('background-color', '#f2f2f2'),
+            ('font-weight', 'bold'),
+            ('text-align', 'center')
+        ]},
+        {'selector': 'td', 'props': [
+            ('border', '1px solid #ccc'),
+            ('padding', '8px')
+        ]}
+    ])
+    )
+  return result
+## Tableview down
+def table_view_down (df):
+  df_table = (
+    df
+    .assign(
+        product_with_diff=lambda x:
+        x['keywords'] + " (" + x['decline_score'].apply(format_num) + ")"
+    )
+    .groupby(['level1_kpi_category','level2_kpi_category'])['product_with_diff']
+    .apply(lambda x: ", ".join(x))
+    .reset_index()
+    .sort_values(by=['level1_kpi_category','level2_kpi_category'],ascending=[True, True])
+    )
+
+  df_table.columns = ['Level 1','Level 2', 'Sản phẩm tiêu biểu| ΔADO lũy kế']
+
+  # format bảng
+  result = (
+    df_table
+    .style
+    .set_properties(**{
+        'white-space': 'pre-wrap',
+        'text-align': 'left',
+        'vertical-align': 'top',
+        'border': '1px solid #ccc'
+    })
+    .set_table_styles([
+        {'selector': 'th', 'props': [
+            ('border', '1px solid #ccc'),
+            ('background-color', '#f2f2f2'),
+            ('font-weight', 'bold'),
+            ('text-align', 'center')
+        ]},
+        {'selector': 'td', 'props': [
+            ('border', '1px solid #ccc'),
+            ('padding', '8px')
+        ]}
+    ])
+    )
+  return result
