@@ -348,7 +348,7 @@ def quantile_share_diff (df,lv1):
         f"và tăng trưởng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
-  lines.append(f"  - GMV: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_gmv_text}.")
+  lines.append(f"- GMV: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_gmv_text}.")
   return lines
 # Hàm phân vị tăng trưởng cao, cơ cấu nhỏ:
 def quantile_share_diff_2 (df,lv1):
