@@ -14,8 +14,8 @@ import pandas as pd
 
 def load_data(month="2024-09"):
 
-    path_lv2   = "/content/drive/MyDrive/python/Quick_Report/Data_by_Month/Sep/data_by_level2.csv"
-    path_items = "/content/drive/MyDrive/python/Quick_Report/Data_by_Month/Sep/data_by_item.csv"
+    path_lv2   = "/content/drive/MyDrive/python/Quick_Report/Data_by_Month/Sep/level2_df.csv"
+    path_items = "/content/drive/MyDrive/python/Quick_Report/Data_by_Month/Sep/items_df_1.csv"
 
     df_source_items = pd.read_csv(path_items)
     df_source_lv2 = pd.read_csv(path_lv2)
