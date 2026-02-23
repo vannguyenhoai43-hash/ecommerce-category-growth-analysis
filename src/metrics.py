@@ -334,6 +334,159 @@ def top3_items_low (df,metric):
   result = result [['level1_kpi_category','level2_kpi_category', 'keywords',col_M,col_M_1, diff_col, contrib_col]]
 
   return  result
+# Text insight cat tăng
+def insight_ado_gmv_from_items(
+    contrib_ado_df,
+    contrib_gmv_df,
+    df_ado,
+    df_gmv,
+    lvl1
+):
+
+    # Lọc orthers
+    sub_contrib_ado = contrib_ado_df.loc[
+    (contrib_ado_df['level1_kpi_category'] == lvl1) &
+    (contrib_ado_df['level2_kpi_category'] != 'Others'),
+    ['level1_kpi_category','level2_kpi_category', 'diff_ado', 'contrib_ado']].copy()
+
+    sub_contrib_gmv = contrib_gmv_df.loc[
+    (contrib_gmv_df['level1_kpi_category'] == lvl1) &
+    (contrib_gmv_df['level2_kpi_category'] != 'Others'),
+    ['level1_kpi_category','level2_kpi_category', 'diff_gmv', 'contrib_gmv']].copy()
+
+    # Lọc level 1 trong bảng items
+    sub_ado = df_ado[df_ado['level1_kpi_category'] == lvl1].copy()
+    sub_gmv = df_gmv[df_gmv['level1_kpi_category'] == lvl1].copy()
+
+    lines = []
+    lines.append(f"**Về {lvl1}**")
+
+    # ================= ADO ================
+
+    ado_names = ', '.join(sub_contrib_ado['level2_kpi_category'])
+    ado_contrib = sub_contrib_ado['contrib_ado'].sum()
+
+    lines.append(
+        f"- **ADO**: Tăng trưởng chủ yếu đến từ các ngành hàng "
+        f" **{ado_names}**, đóng góp {ado_contrib:.1%} tổng mức tăng. Một số sản phẩm tiêu biểu như: \n \n"
+    )
+
+    for lvl2 in sub_ado['level2_kpi_category'].unique():
+
+        items = (
+            sub_ado[sub_ado['level2_kpi_category'] == lvl2]
+            .sort_values('diff_ado', ascending=False)
+            .head(3)
+        )
+
+        item_text = ", ".join(
+            f"**{i['keywords']}** ({i['diff_ado']:+.2f} ADO)"
+            for _, i in items.iterrows()
+        )
+
+        lines.append(f"  - **{lvl2}**: {item_text}")
+
+    # ================= GMV =================
+
+    gmv_names = ', '.join(sub_contrib_gmv['level2_kpi_category'])
+    gmv_contrib = sub_contrib_gmv['contrib_gmv'].sum()
+
+    lines.append(
+        "\n"
+        f"- **GMV**: Tăng trưởng chủ yếu đến từ nhóm "
+        f"(**{gmv_names}**), đóng góp {gmv_contrib:.1%} tổng mức tăng. Một số sản phẩm tiêu biểu như:\n \n"
+    )
+
+    for lvl2 in sub_gmv['level2_kpi_category'].unique():
+        items = (
+            sub_gmv[sub_gmv['level2_kpi_category'] == lvl2]
+            .sort_values('diff_gmv', ascending=False)
+            .head(3)
+        )
+
+        item_text = ", ".join(
+            f"**{i['keywords']}** ({i['diff_gmv']:+.2f} GMV)"
+            for _, i in items.iterrows()
+        )
+
+        lines.append(f"  - **{lvl2}**: {item_text}")
+
+    return "\n \n".join(lines)
+# Hàm cat giảm
+def insight_low_ado_gmv_items(
+    contrib_ado_df,
+    contrib_gmv_df,
+    df_ado,
+    df_gmv,
+    lvl1
+):
+    # Lọc orthers
+    sub_contrib_ado = contrib_ado_df.loc[
+    (contrib_ado_df['level1_kpi_category'] == lvl1),
+    ['level1_kpi_category','level2_kpi_category', 'diff_ado', 'contrib_ado']].copy()
+
+    sub_contrib_gmv = contrib_gmv_df.loc[
+    (contrib_gmv_df['level1_kpi_category'] == lvl1),
+    ['level1_kpi_category','level2_kpi_category', 'diff_gmv', 'contrib_gmv']].copy()
+
+    # Lọc level 1 trong bảng items
+    sub_ado = df_ado[df_ado['level1_kpi_category'] == lvl1].copy()
+    sub_gmv = df_gmv[df_gmv['level1_kpi_category'] == lvl1].copy()
+
+    lines = []
+    lines.append(f"**Về {lvl1}**")
+
+    # ================= ADO ================
+
+    ado_names = ', '.join( sub_contrib_ado['level2_kpi_category'])
+    ado_contrib =  sub_contrib_ado['contrib_ado'].sum()
+
+    lines.append(
+        f"- **ADO**: Ngành hàng tăng trưởng chậm/ giảm gồm: "
+        f"**{ado_names}**, chiếm {ado_contrib:.1%} tổng mức biến động. Một số sản phẩm giảm ADO đáng chú ý như: \n \n"
+    )
+
+    for lvl2 in sub_ado['level2_kpi_category'].unique():
+
+        items = (
+            sub_ado[sub_ado['level2_kpi_category'] == lvl2]
+            .sort_values('diff_ado', ascending=False)
+            .head(3)
+        )
+
+        item_text = ", ".join(
+            f"**{i['keywords']}** ({i['diff_ado']:.2f} ADO)"
+            for _, i in items.iterrows()
+        )
+
+        lines.append(f"  - **{lvl2}**: {item_text}.")
+
+    # ================= GMV =================
+
+    gmv_names = ', '.join(sub_contrib_gmv['level2_kpi_category'])
+    gmv_contrib = sub_contrib_gmv['contrib_gmv'].sum()
+
+    lines.append(
+        "\n"
+        f"- **GMV**: Ngành hàng tăng trưởng chậm/ giảm gồm: "
+        f"(**{gmv_names}**), chiếm {gmv_contrib:.1%} tổng mức biến động. Một số sản phẩm giảm GMV đáng chú ý như: \n \n"
+    )
+
+    for lvl2 in sub_gmv['level2_kpi_category'].unique():
+        items = (
+            sub_gmv[sub_gmv['level2_kpi_category'] == lvl2]
+            .sort_values('diff_gmv', ascending=False)
+            .head(3)
+        )
+
+        item_text = ", ".join(
+            f"**{i['keywords']}** ({i['diff_gmv']:.2f} GMV)"
+            for _, i in items.iterrows()
+        )
+
+        lines.append(f"  - **{lvl2}**: {item_text}.")
+
+    return "\n \n".join(lines)
 
 """## Phần 3: Chất lượng tăng trưởng"""
 # Hàm phân vị cơ cấu và tăng trưởng cao
