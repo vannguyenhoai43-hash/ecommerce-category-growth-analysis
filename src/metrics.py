@@ -70,21 +70,41 @@ def growth_by_mul_level(df, level_cols):
     return pd.DataFrame(results)
 # insight overview
 def text_overview(df):
-    if df.empty:
-        return ""
 
-    texts = df.apply(
+    diff_ado_overall = df['diff_ado'].sum()
+    diff_gmv_overall = df['diff_gmv'].sum()
+    grow_ado_overall = df['grow_ado'].sum()
+    grow_gmv_overall = df['grow_gmv'].sum()
+
+    # Tạo câu tổng quan
+    overview_text = (
+        f"\n\nNgành hàng **Vehicle Essentials & Home & Technical Supplies** "
+        f"{cur_month} so với {last_month} "
+        f"{growth_lable(diff_ado_overall)} {format_num(diff_ado_overall)} về ADO "
+        f"({format_pct(grow_ado_overall)} MoM) và "
+        f"{growth_lable(diff_gmv_overall)} {format_num(diff_gmv_overall)} về GMV "
+        f"({format_pct(grow_gmv_overall)} MoM)."
+    )
+
+    # Tạo bullet từng Level 1
+    texts_l1 = df.apply(
         lambda row: (
             f"**{row['level1_kpi_category']}**: "
-            f"**ADO** {growth_lable(float(row['diff_ado']))} {format_num(row['diff_ado'])} "
+            f"ADO {growth_lable(row['diff_ado'])} {format_num(row['diff_ado'])} "
             f"({format_pct(row['grow_ado'])} MoM), "
-            f"**GMV** {growth_lable(float(row['diff_gmv']))} {format_num(row['diff_gmv'])} "
-            f"({format_pct(row['grow_gmv'])} MoM)."
+            f"GMV {growth_lable(row['diff_gmv'])} {format_num(row['diff_gmv'])} "
+            f"({format_pct(row['grow_gmv'])} MoM)"
         ),
         axis=1
     )
 
-    return "\n\n".join(texts.astype(str))
+    # Gộp tất cả lại
+    final_text = (
+        overview_text
+        + "\n\n**Trong đó:**\n"
+        + "\n".join(f"- {t}" for t in texts_l1)
+    )
+    return final_text
 """### Hàm keywords"""
 
 noise_phrases = [
