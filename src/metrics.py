@@ -79,7 +79,6 @@ def text_overview(df):
     # Tạo câu tổng quan
     overview_text = (
         f"\n\nNgành hàng **Vehicle Essentials & Home & Technical Supplies** "
-        f"{cur_month} so với {last_month} "
         f"{growth_lable(diff_ado_overall)} {format_num(diff_ado_overall)} về ADO "
         f"({format_pct(grow_ado_overall)} MoM) và "
         f"{growth_lable(diff_gmv_overall)} {format_num(diff_gmv_overall)} về GMV "
