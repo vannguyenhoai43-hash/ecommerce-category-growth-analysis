@@ -70,17 +70,21 @@ def growth_by_mul_level(df, level_cols):
     return pd.DataFrame(results)
 # insight overview
 def text_overview(df):
-    text = df.apply(
-        lambda row :(
-          f"**{row['level1_kpi_category']}**: "
-          f"**ADO** {growth_lable(row['diff_ado'])} {format_num(row['diff_ado'])} "
-          f"({format_pct(row['grow_ado'])} MoM), "
-          f"**GMV** {growth_lable(row['diff_gmv'])} {format_num(row['diff_gmv'])} "
-          f"({format_pct(row['grow_gmv'])} MoM)."
+    if df.empty:
+        return ""
+
+    texts = df.apply(
+        lambda row: (
+            f"**{row['level1_kpi_category']}**: "
+            f"**ADO** {growth_lable(float(row['diff_ado']))} {format_num(row['diff_ado'])} "
+            f"({format_pct(row['grow_ado'])} MoM), "
+            f"**GMV** {growth_lable(float(row['diff_gmv']))} {format_num(row['diff_gmv'])} "
+            f"({format_pct(row['grow_gmv'])} MoM)."
         ),
         axis=1
     )
-    return "\n\n".join(text)
+
+    return "\n\n".join(texts.astype(str))
 """### Hàm keywords"""
 
 noise_phrases = [
