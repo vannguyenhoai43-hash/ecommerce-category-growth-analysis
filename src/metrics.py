@@ -68,7 +68,15 @@ def growth_by_mul_level(df, level_cols):
         results.append(res)
 
     return pd.DataFrame(results)
-
+# insight overview
+def text_overview(row):
+  return (
+      f"**{row['category']}**: "
+      f"**ADO** {growth_lable(row['diff_ado'])} {format_num(row['diff_ado'])} "
+      f"({format_pct(row['grow_ado'])} MoM), "
+      f"**GMV** {growth_lable(row['diff_gmv'])} {format_num(row['diff_gmv'])} "
+      f"({format_pct(row['grow_gmv'])} MoM)."
+  )
 """### Hàm keywords"""
 
 noise_phrases = [
