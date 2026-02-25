@@ -1031,7 +1031,7 @@ def table_view_down (df):
     df
     .assign(
         product_with_diff=lambda x:
-        f"{row['keywords']} (-{abs(row['decline_score']):,.0f})",
+        f"{row['keywords']} (-{abs(row['decline_score']):,.1f})",
         axis=1
     )
     .groupby(['level1_kpi_category','level2_kpi_category'])['product_with_diff']
