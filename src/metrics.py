@@ -1032,7 +1032,7 @@ def table_view_down (df):
     .assign(
         product_with_diff=lambda x:
         x.apply(
-            lambda row: f"{row['keywords']} ({row['decline_score']:.1f})",
+            lambda row: f"{row['keywords']} ({row['decline_score']:,.0f})",
             axis=1
         )
     )
