@@ -312,12 +312,12 @@ def top3_items (df,metric):
 # Hàm tăng trưởng âm
 def top3_items_low (df,metric):
   if metric == 'ado':
-        contrib_col = 'contrib_ado'
+        
         diff_col = 'diff_ado'
         col_M = 'ADO_M'
         col_M_1 = 'ADO_M_1'
   elif metric == 'gmv':
-        contrib_col = 'contrib_gmv'
+        
         diff_col = 'diff_gmv'
         col_M = 'AdGMV_M'
         col_M_1 = 'AdGMV_M_1'
@@ -331,7 +331,7 @@ def top3_items_low (df,metric):
                 .head(3)
   )
 
-  result = result [['level1_kpi_category','level2_kpi_category', 'keywords',col_M,col_M_1, diff_col, contrib_col]]
+  result = result [['level1_kpi_category','level2_kpi_category', 'keywords',col_M,col_M_1, diff_col]]
 
   return  result
 # Text insight cat tăng
