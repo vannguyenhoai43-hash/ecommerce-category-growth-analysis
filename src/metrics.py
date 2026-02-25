@@ -512,11 +512,11 @@ def quantile_share_diff (df,lv1):
 
   # text
   quantile_ado_text = ", ".join(
-        f"{i['level2_kpi_category']} (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
+        f" **{i['level2_kpi_category']}** (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
         f"và tăng trưởng {i[('grow_ado')]*100:+.2f}% MoM )"
         for _, i in df_quantile_ado.iterrows()
     )
-  lines.append(f"- ADO: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_ado_text}.")
+  lines.append(f"- **ADO**: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_ado_text}.")
 #-------GMV
   q_share_gmv = df_lv1['gmv_share'].quantile(0.7)
 
@@ -532,11 +532,11 @@ def quantile_share_diff (df,lv1):
 
   # text
   quantile_gmv_text = ", ".join(
-        f"{i['level2_kpi_category']}(chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
+        f"**{i['level2_kpi_category']} **(chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
         f"và tăng trưởng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
-  lines.append(f"- GMV: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_gmv_text}.")
+  lines.append(f"- **GMV**: ngành hàng có tỷ trọng cao và tăng trưởng tốt là {quantile_gmv_text}.")
   return lines
 # Hàm phân vị tăng trưởng cao, cơ cấu nhỏ:
 def quantile_share_diff_2 (df,lv1):
@@ -549,10 +549,6 @@ def quantile_share_diff_2 (df,lv1):
 #-------ADO
 
   q_share_ado = df_lv1['ado_share'].quantile(0.7)
-
-  #df_pos_ado = df_lv1[df_lv1['diff_ado']>0]
-  #if df_pos_ado.empty:
-  #     return pd.DataFrame(columns= df_lv1.columns)
   q_diff_ado = df_lv1['diff_ado'].quantile(0.7)
 
   df_quantile_ado = df_lv1[
@@ -561,17 +557,13 @@ def quantile_share_diff_2 (df,lv1):
 
   # text
   quantile_ado_text = ", ".join(
-        f"{i['level2_kpi_category']} (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
+        f"**{i['level2_kpi_category']}** (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
         f"và tăng trưởng {i[('grow_ado')]*100:+.2f}% MoM )"
         for _, i in df_quantile_ado.iterrows()
     )
-  lines.append(f"- ADO: ngành hàng có tỷ trọng nhỏ nhưng tăng trưởng tốt là {quantile_ado_text}.")
+  lines.append(f"- **ADO**: ngành hàng có tỷ trọng nhỏ nhưng tăng trưởng tốt là {quantile_ado_text}.")
 #-------GMV
   q_share_gmv = df_lv1['gmv_share'].quantile(0.7)
-
-  #df_pos_gmv = df_lv1[df_lv1['diff_gmv']>0]
-  #if df_pos_gmv.empty:
-  #     return pd.DataFrame(columns= df_lv1.columns)
   q_diff_gmv = df_lv1['diff_gmv'].quantile(0.7)
 
   df_quantile_gmv = df_lv1[
@@ -581,11 +573,11 @@ def quantile_share_diff_2 (df,lv1):
 
   # text
   quantile_gmv_text = ", ".join(
-        f"{i['level2_kpi_category']} (chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
+        f"**{i['level2_kpi_category']}** (chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
         f"và tăng trưởng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
-  lines.append(f"- GMV: ngành hàng có tỷ trọng nhỏ nhưng tăng trưởng tốt là {quantile_gmv_text}.")
+  lines.append(f"- **GMV**: ngành hàng có tỷ trọng nhỏ nhưng tăng trưởng tốt là {quantile_gmv_text}.")
   return lines
 # Hàm phân vị tăng trưởng cao, tỷ trọng nhỏ:
 def quantile_share_diff_3 (df,lv1):
@@ -606,17 +598,13 @@ def quantile_share_diff_3 (df,lv1):
 
   # text
   quantile_ado_text = ", ".join(
-        f"{i['level2_kpi_category']} (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
+        f"**{i['level2_kpi_category']}** (chiếm {i[('ado_share')]*100:.2f}% cơ cấu ADO "
         f"nhưng {i[('grow_ado')]*100:+.2f}% MoM )"
         for _, i in df_quantile_ado.iterrows()
     )
-  lines.append(f"- ADO: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_ado_text}.")
+  lines.append(f"- **ADO**: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_ado_text}.")
 #-------GMV
   q_share_gmv = df_lv1['gmv_share'].quantile(0.7)
-
-  #df_pos_gmv = df_lv1[df_lv1['diff_gmv']>0]
-  #if df_pos_gmv.empty:
-  #     return pd.DataFrame(columns= df_lv1.columns)
   q_diff_gmv = df_lv1['diff_gmv'].quantile(0.7)
 
   df_quantile_gmv = df_lv1[
@@ -630,8 +618,9 @@ def quantile_share_diff_3 (df,lv1):
         f"nhưng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
-  lines.append(f"- GMV: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_gmv_text}.")
+  lines.append(f"- **GMV**: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_gmv_text}.")
   return lines
+    
 """## Phần 4: Xu hướng ngành hàng"""
 # Hàm xu hướng tăng:
 def trend_grow(df,lv1):
