@@ -621,65 +621,6 @@ def quantile_share_diff_3 (df,lv1):
   lines.append(f"- **GMV**: ngành hàng có tỷ trọng cao nhưng ghi nhận suy giảm MoM là {quantile_gmv_text}.")
   return lines
 
-# Chart heatmap
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-def plot_heatmap_share(df,lv1):
-
-# pivot
-  heatmap_ado_df = (
-            df[df['level1_kpi_category'] == lv1]
-            .pivot_table(
-               index = 'level2_kpi_category',
-               columns = 'year_month',
-               values = 'ado_share',
-               aggfunc = 'sum'
-              )
-)
-
-  heatmap_gmv_df = (
-            df[df['level1_kpi_category'] == lv1]
-            .pivot_table(
-               index = 'level2_kpi_category',
-               columns = 'year_month',
-               values = 'gmv_share',
-               aggfunc = 'sum'
-              )
-)
-
-  fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-
-#----ADO----------
-
-  sns.heatmap(
-        heatmap_ado_df,
-        cmap='Blues',
-        annot=True,
-        fmt='.1%',
-        linewidths=0.5,
-        ax=axes[0]
-    )
-  axes[0].set_title(f'{lv1} – ADO_share', weight='bold')
-  axes[0].set_xlabel('Month')
-  axes[0].set_ylabel('level2_category')
-
-#----GMV----------
-
-  sns.heatmap(
-        heatmap_gmv_df,
-        cmap='Blues',
-        annot=True,
-        fmt='.1%',
-        linewidths=0.5,
-        ax=axes[1]
-    )
-  axes[1].set_title(f'{lv1} – GMV_share', weight='bold')
-  axes[1].set_xlabel('Month')
-
-  plt.tight_layout()
-  plt.show()
     
 """## Phần 4: Xu hướng ngành hàng"""
 # Hàm xu hướng tăng:
