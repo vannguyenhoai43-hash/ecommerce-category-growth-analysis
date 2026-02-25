@@ -532,7 +532,7 @@ def quantile_share_diff (df,lv1):
 
   # text
   quantile_gmv_text = ", ".join(
-        f"**{i['level2_kpi_category']} **(chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
+        f"**{i['level2_kpi_category']}**(chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
         f"và tăng trưởng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
@@ -614,7 +614,7 @@ def quantile_share_diff_3 (df,lv1):
 
   # text
   quantile_gmv_text = ", ".join(
-        f"{i['level2_kpi_category']} (chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
+        f"**{i['level2_kpi_category']}** (chiếm {i[('gmv_share')]*100:.2f}% cơ cấu GMV "
         f"nhưng {i[('grow_gmv')]*100:+.2f}% MoM )"
         for _, i in df_quantile_gmv.iterrows()
     )
