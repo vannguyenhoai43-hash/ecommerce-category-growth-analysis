@@ -180,43 +180,26 @@ Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
 Notebook: [05_trend.ipynb](notebooks/05_trend_.ipynb)
 
-- 📊 Overview Analysis  
-  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/01_overview.ipynb)
-
-- 🔎 Product Keyword Analysis  
-  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/02_product_keyword.ipynb)
-
-- 📈 Growth Driver Analysis  
-  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/03_growth_driver.ipynb)
-
-- 📊 Quality of Growth  
-  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/04_quality_growth.ipynb)
-
-- 📈 Product Trend Analysis  
-  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/05_trend.ipynb)
-
 ## 6. Cấu trúc repository
 ```text
 quick-category-performance-report/
 │
 ├── README.md
 ├── sql/
-│   ├── 01_clean_data.sql
-│   ├── 02_agg_level2.sql
-│   └── 03_agg_items.sql
+│   └── cat_pfm_pipeline.sql
 │
 ├── notebooks/
 │   ├── 01_overview.ipynb
 │   ├── 02_product_keyword.ipynb
 │   ├── 03_growth_driver.ipynb
 │   ├── 04_quality_growth.ipynb
-│   └── 05_trend.ipynb
-├── cat_quick_report.ipynb
+│   ├── 05_trend.ipynb
+│   └── cat_quick_report.ipynb
 │
 ├── src/
+│   ├── load_data.py
 │   ├── metrics.py
-│   ├── charts.py
-│   └── utils.py
+│   └── charts.py
 │
 └── requirements.txt
 ```
