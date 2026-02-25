@@ -192,20 +192,16 @@ quick-category-performance-report/
 │
 ├── notebooks/
 │   ├── 01_overview.ipynb
-│   ├── 02_growth_driver.ipynb
-│   ├── 03_quality_growth.ipynb
-|   ├── 04-trend_by_lv2.ipynb
-│   └── 05_trend_by_items.ipynb
+│   ├── 02_product_keyword.ipynb
+│   ├── 03_growth_driver.ipynb
+│   ├── 04_quality_growth.ipynb
+│   └── 05_trend.ipynb
+├── cat_quick_report.ipynb
 │
 ├── src/
 │   ├── metrics.py
 │   ├── charts.py
 │   └── utils.py
-│
-├── data/        
-├── outputs/
-│   ├── charts/
-│   └── tables/
 │
 └── requirements.txt
 ```
