@@ -180,6 +180,21 @@ Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
 Notebook: [05_trend.ipynb](notebooks/05_trend_.ipynb)
 
+- 📊 Overview Analysis  
+  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/01_overview.ipynb)
+
+- 🔎 Product Keyword Analysis  
+  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/02_product_keyword.ipynb)
+
+- 📈 Growth Driver Analysis  
+  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/03_growth_driver.ipynb)
+
+- 📊 Quality of Growth  
+  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/04_quality_growth.ipynb)
+
+- 📈 Product Trend Analysis  
+  [Open in Colab](https://colab.research.google.com/github/vannguyenhoai43-hash/quick-category-performance-report/blob/main/notebooks/05_trend.ipynb)
+
 ## 6. Cấu trúc repository
 ```text
 quick-category-performance-report/
