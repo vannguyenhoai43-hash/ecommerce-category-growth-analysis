@@ -211,9 +211,7 @@ quick-category-performance-report/
 ```
 ## Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu.
-
-[link]  
-(https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/)
+[link](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
 ## 7. KẾT QUẢ ĐẠT ĐƯỢC
 - Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
 - Giảm sai sót so với thao tác thủ công
