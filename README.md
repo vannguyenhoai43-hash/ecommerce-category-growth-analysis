@@ -51,14 +51,26 @@ Dự án tập trung trả lời các câu hỏi:
 ### Chỉ số chính
 - **ADO**: Số lượng đơn hàng ngày
 - **AdGMV**: Giá trị doanh thu hàng ngày
-- **grow_ado/ grow_gmv**: Tăng trưởng MoM 
 - **diff_ado / diff_gmv** : Chênh lệch tuyệt đối
-  - diff_ado = ado_cur - ado_gmv
+  
+  - diff_ado = ado_cur - ado_prev
   - diff_gmv = gmv_cur - gmv_prev
+    
+- **grow_ado/ grow_gmv**: Tăng trưởng MoM
+  
+  - grow_ado = diff_ado/ ado_prev
+  - grow_gmv = diff_gmv/ gmv_prev
+    
 - **contrib_ado / contrib_gmv**: Mức độ đóng góp vào tăng trưởng chung
-      contrb_ado = diff_ado / total_diff_ado
+  
+  - contrb_ado = diff_ado / total_diff_ado
+  - contrb_gmv = diff_gmv / total_diff_gmv
+    
 - **share_ado / share_gmv**: Tỷ trọng ADO/GMV
 
+  - share_ado = ado_per_cat / total_ado
+  - share_gmv = gmv_per_cat / total_gmv
+    
 ### Dữ liệu
 - Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
 Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
