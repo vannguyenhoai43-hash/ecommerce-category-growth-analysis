@@ -203,13 +203,17 @@ quick-category-performance-report/
 │   ├── 05_trend.ipynb
 │   └── cat_quick_report.ipynb
 │
-├── src/
-│   ├── load_data.py
-│   ├── metrics.py
-│   └── charts.py
-│
-└── requirements.txt
+└── src/
+    ├── load_data.py
+    ├── metrics.py
+    └── charts.py
+
 ```
+## Báo cáo đầu ra 
+Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu.
+
+Truy cập báo cáo:  
+https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/
 ## 7. KẾT QUẢ ĐẠT ĐƯỢC
 - Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
 - Giảm sai sót so với thao tác thủ công
