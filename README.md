@@ -43,37 +43,28 @@ Dự án tập trung trả lời các câu hỏi:
 
 ## 4. PHẠM VI DỮ LIỆU VÀ CÁC CHỈ SỐ
 
+### Dữ liệu
+- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
+Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
+
 ### Cấp độ phân tích
 - **Level 1 (LV1)**: Ngành hàng cấp 1  
 - **Level 2 (LV2)**: Ngành hàng cấp 2 
-- **Sản phẩm (Items)**
+- **Items**        : Sản phẩm
 
 ### Chỉ số chính
 - **ADO**: Số lượng đơn hàng ngày
 - **AdGMV**: Giá trị doanh thu hàng ngày
-- **diff_ado / diff_gmv** : Chênh lệch tuyệt đối
-  
-  - diff_ado = ado_cur - ado_prev
-  - diff_gmv = gmv_cur - gmv_prev
-    
-- **grow_ado/ grow_gmv**: Tăng trưởng MoM
-  
-  - grow_ado = diff_ado/ ado_prev
-  - grow_gmv = diff_gmv/ gmv_prev
-    
-- **contrib_ado / contrib_gmv**: Mức độ đóng góp vào tăng trưởng chung
-  
-  - contrb_ado = diff_ado / total_diff_ado
-  - contrb_gmv = diff_gmv / total_diff_gmv
-    
-- **share_ado / share_gmv**: Tỷ trọng ADO/GMV
+- Các chỉ số khác được tính toán theo cùng công thức cho cả ADO và AdGMV:
 
-  - share_ado = ado_per_cat / total_ado
-  - share_gmv = gmv_per_cat / total_gmv
-    
-### Dữ liệu
-- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
-Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
+  - **Tăng trưởng tuyệt đối** = Kỳ hiện tại − Kỳ trước
+  
+  - **Tăng trưởng MoM (%)** = Tăng trưởng tuyệt đối / Kỳ trước
+  
+  - **Mức độ đóng góp** = Tăng trưởng của danh mục / Tổng tăng trưởng
+  
+  - **Tỷ trọng (Share)** = Giá trị danh mục / Tổng giá trị
+
 ---
 
 ## 5. NỘI DUNG PHÂN TÍCH
@@ -96,11 +87,11 @@ dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
 - Biểu đồ kết hợp:
   - Cột: AdGMV
   - Đường: ADO  
-  giúp so sánh trực quan sự thay đổi về quy mô và giá trị giữa các tháng
 
-Notebook: [01_overview.ipynb](notebooks/01_overview.ipynb)
+Chi tiết: [01_overview.ipynb](notebooks/01_overview.ipynb)
 
 ---
+
 ### PHẦN 2: CHUẨN HÓA VÀ GOM NHÓM SẢN PHẨM
 
 Trong dữ liệu gốc:
@@ -114,13 +105,13 @@ Trong dữ liệu gốc:
 
 **Cách xử lý:**
 - Làm sạch tên sản phẩm:
-  - Loại bỏ từ gầy nhiễu (mô tả, quảng cáo, cảm tính)
+  - Loại bỏ từ gây nhiễu (mô tả, quảng cáo, cảm tính)
   - Chuẩn hoá text
   - Giữ lại **5 từ khoá chính**
 - Group lại dữ liệu theo **nhóm sản phẩm đã chuẩn hoá**
 - Phân tích tăng trưởng dựa trên nhóm này thay vì tên sản phẩm thô
 
-**Cách làm này giúp:**
+**Mục tiêu:**
 - Giảm phân mảnh dữ liệu
 - Phản ánh đúng hành vi tiêu dùng
 - Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
@@ -135,37 +126,27 @@ Notebook: [02_product_keyword.ipynb](notebooks/02_product_keyword.ipynb)
 Phân tích động lực tăng trưởng của từng ngành hàng LV1 theo tháng (MoM), xác định:
 - Ngành hàng LV2 nào đóng góp chính vào tăng/giảm
 - Các nhóm sản phẩm cụ thể tác động lớn đến kết quả
-- Phân biệt rõ tăng trưởng **dương** và **âm** theo cả **ADO** và **AdGMV**
 
 ### Phương pháp phân tích
 
-Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV1 --> LV2 --> Sản phẩm), từ tổng quan đến chi tiết:
+Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV2 --> Sản phẩm), từ tổng quan đến chi tiết:
 
-**Bước 1 – Cấp LV1**
-- Tính mức tăng/giảm MoM của:
-  - `ADO`
-  - `AdGMV`
-- Xác định LV1 đang:
-  - Tăng trưởng dương
-  - Tăng trưởng âm
-  - Hoặc tăng trưởng lệch pha giữa đơn và doanh thu.
-
-**Bước 2 – Cấp LV2**
+**Bước 1 – Cấp LV2**
 - Với mỗi LV1:
   - Lấy **Top 3 LV2 tăng trưởng dương**
   - Lấy **Top 3 LV2 tăng trưởng âm**
-- Tiêu chí:
+- Chỉ số:
   - `diff_ADO`
   - `diff_AdGMV`
 - Đánh giá mức độ đóng góp của từng LV2 vào tổng biến động của LV1
 
-**Bước 3 – Cấp sản phẩm**
+**Bước 2 – Cấp sản phẩm**
 - Với mỗi LV2 được chọn:
   - Phân tích các sản phẩm:
     - Có mức đóng góp tăng trưởng lớn và tăng/giảm mạnh nhất trong kỳ
 - Mục tiêu:
   - Tập trung vào các sản phẩm thực sự tạo ra biến động
-  - Tránh phân tích dàn trải, nhiễu insight
+  - Chỉ ra được các sản phẩm ảnh hưởng vào tăng trưởng của ngành hàng
 
 Notebook: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 
