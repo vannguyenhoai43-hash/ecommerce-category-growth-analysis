@@ -1,6 +1,6 @@
 # Báo cáo nhanh hiệu quả ngành hàng (MoM)
 
-## 1. Giới thiệu dự án
+## 1. GIỚI THIỆU DỰ ÁN
 
 Dự án này xây dựng một **framework báo cáo nhanh hiệu quả ngành hàng theo tháng (Month-over-Month)**,  
 nhằm hỗ trợ phân tích và trả lời nhanh các câu hỏi kinh doanh chính ngay khi có dữ liệu tháng mới.
@@ -11,12 +11,14 @@ Framework được thiết kế theo hướng:
 - Có thể tái sử dụng cho nhiều tháng sau khi nhập dữ liệu mới
 
 ---
-## 2.Tech Stack
-- SQL (Data cleaning & aggregation)
-- Python (Pandas, Matplotlib)
-- Google Colab
 
-## 3. Mục tiêu & câu hỏi kinh doanh
+## 2.TECH STACK
+- SQL (Data cleaning & aggregation)
+- Google Colab (Pandas, Numpy, Matplotlib)
+  
+---
+
+## 3. MỤC TIÊU VÀ CÂU HỎI KINH DOANH
 
 Dự án tập trung trả lời các câu hỏi:
 
@@ -37,26 +39,34 @@ Dự án tập trung trả lời các câu hỏi:
 5. **Những sản phẩm nào cần được chú ý do có xu hướng tăng/ giảm đơn và doanh thu?**  
    → Lọc các sản phẩm tăng trưởng/suy giảm liên tiếp, mức giảm đủ lớn và có tỷ trọng đóng góp cao.
 
-## 4. Phạm vi dữ liệu & chỉ số
+---
+
+## 4. PHẠM VI DỮ LIỆU VÀ CÁC CHỈ SỐ
 
 ### Cấp độ phân tích
-- **Level 1 (LV1)**: Ngành hàng chính  
-- **Level 2 (LV2)**: Ngành hàng chi tiết  
+- **Level 1 (LV1)**: Ngành hàng cấp 1  
+- **Level 2 (LV2)**: Ngành hàng cấp 2 
 - **Sản phẩm (Items)**
 
 ### Chỉ số chính
 - **ADO**: Số lượng đơn hàng ngày
 - **AdGMV**: Giá trị doanh thu hàng ngày
-- **grow_ado/ grow_gmv**: Tăng trưởng tháng so với tháng trước
-- **diff_ado / diff_gmv**: Chênh lệch tuyệt đối
+- **grow_ado/ grow_gmv**: Tăng trưởng MoM 
+- **diff_ado / diff_gmv** : Chênh lệch tuyệt đối
+      diff_ado = ado_cur - ado_gmv
+      diff_gmv = gmv_cur - gmv_prev
 - **contrib_ado / contrib_gmv**: Mức độ đóng góp vào tăng trưởng chung
-- **share_ado / share_gmv**: Tỷ trọng cơ cấu
+      contrb_ado = diff_ado / total_diff_ado
+- **share_ado / share_gmv**: Tỷ trọng ADO/GMV
 
+### Dữ liệu
+- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
+Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
 ---
 
-## 5. Nội dung phân tích
+## 5. NỘI DUNG PHÂN TÍCH
 
-### Phần 1: Tổng quan ngành hàng
+### PHẦN 1: TỔNG QUAN NGÀNH HÀNG
 
 Phần này cung cấp **bức tranh tổng quan về xu hướng tăng/giảm MoM của ngành hàng LV1** 
 dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
@@ -79,7 +89,35 @@ dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
 Notebook: [01_overview.ipynb](notebooks/01_overview.ipynb)
 
 ---
-### PHẦN 2: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG 
+### PHẦN 2: CHUẨN HÓA VÀ GOM NHÓM SẢN PHẨM
+
+Trong dữ liệu gốc:
+- Mỗi dòng là một **tên sản phẩm duy nhất**
+- Tuy nhiên, nhiều sản phẩm khác tên nhưng thực tế thuộc **cùng một nhóm sản phẩm**
+
+**Ví dụ:**
+- “Mũ Bảo Hiểm Nửa Đầu 1/2 Sơn Nhám Có Lỗ Thông Gió Freesize Cho Nam Nữ”
+- “[Siêu Sale]Mũ bảo hiểm nửa đầu cao cấp cực đẹp và sang phù hợp cả nam và nữ giá rẻ ”  
+→ Cùng thuộc nhóm **“mũ bảo hiểm nửa đầu”**
+
+**Cách xử lý:**
+- Làm sạch tên sản phẩm:
+  - Loại bỏ từ gầy nhiễu (mô tả, quảng cáo, cảm tính)
+  - Chuẩn hoá text
+  - Giữ lại **5 từ khoá chính**
+- Group lại dữ liệu theo **nhóm sản phẩm đã chuẩn hoá**
+- Phân tích tăng trưởng dựa trên nhóm này thay vì tên sản phẩm thô
+
+**Cách làm này giúp:**
+- Giảm phân mảnh dữ liệu
+- Phản ánh đúng hành vi tiêu dùng
+- Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
+
+Notebook: [02_product_keyword.ipynb](notebooks/02_product_keyword.ipynb)
+
+---
+
+### PHẦN 3: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG
 
 ### Mục tiêu
 Phân tích động lực tăng trưởng của từng ngành hàng LV1 theo tháng (MoM), xác định:
@@ -117,35 +155,11 @@ Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV1 --> 
   - Tập trung vào các sản phẩm thực sự tạo ra biến động
   - Tránh phân tích dàn trải, nhiễu insight
 
-###  Chuẩn hoá & gom nhóm sản phẩm
-
-Trong dữ liệu gốc:
-- Mỗi dòng là một **tên sản phẩm duy nhất**
-- Tuy nhiên, nhiều sản phẩm khác tên nhưng thực tế thuộc **cùng một nhóm sản phẩm**
-
-**Ví dụ:**
-- “Mũ Bảo Hiểm Nửa Đầu 1/2 Sơn Nhám Có Lỗ Thông Gió Freesize Cho Nam Nữ”
-- “[Siêu Sale]Mũ bảo hiểm nửa đầu cao cấp cực đẹp và sang phù hợp cả nam và nữ giá rẻ ”  
-→ Cùng thuộc nhóm **“mũ bảo hiểm nửa đầu”**
-
-**Cách xử lý:**
-- Làm sạch tên sản phẩm:
-  - Loại bỏ từ gầy nhiễu (mô tả, quảng cáo, cảm tính)
-  - Chuẩn hoá text
-  - Giữ lại **5 từ khoá chính**
-- Group lại dữ liệu theo **nhóm sản phẩm đã chuẩn hoá**
-- Phân tích tăng trưởng dựa trên nhóm này thay vì tên sản phẩm thô
-
-**Cách làm này giúp:**
-- Giảm phân mảnh dữ liệu
-- Phản ánh đúng hành vi tiêu dùng
-- Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
-
 Notebook: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 
 ---
 
-### Phần 3: Chất lượng tăng trưởng
+### PHẦN 4: CHẤT LƯỢNG TĂNG TRƯỞNG
 
 - Phân tích thay đổi tỷ trọng qua các tháng:
   - ADO share
@@ -166,7 +180,7 @@ Notebook: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
 ---
-### Phần 4: Xu hướng tăng trưởng 
+### Phần 5: XU HƯỚNG TĂNG TRƯỞNG
 
 - Phân tích xu hướng tăng/giảm của LV2:
   - Lv2 giảm liên tiếp ít nhất 2 tháng gần nhất
@@ -180,7 +194,7 @@ Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
 Notebook: [05_trend.ipynb](notebooks/05_trend_.ipynb)
 
-## 6. Cấu trúc repository
+## 6. CẤU TRÚC REPOSITORY
 ```text
 quick-category-performance-report/
 │
@@ -203,7 +217,7 @@ quick-category-performance-report/
 │
 └── requirements.txt
 ```
-## 7. Kết quả đạt được
+## 7. KẾT QUẢ ĐẠT ĐƯỢC
 - Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
 - Giảm sai sót so với thao tác thủ công
 - Tạo framework phân tích có thể tái sử dụng cho các kỳ tiếp theo
