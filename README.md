@@ -53,8 +53,8 @@ Dự án tập trung trả lời các câu hỏi:
 - **AdGMV**: Giá trị doanh thu hàng ngày
 - **grow_ado/ grow_gmv**: Tăng trưởng MoM 
 - **diff_ado / diff_gmv** : Chênh lệch tuyệt đối
-      diff_ado = ado_cur - ado_gmv
-      diff_gmv = gmv_cur - gmv_prev
+  - diff_ado = ado_cur - ado_gmv
+  - diff_gmv = gmv_cur - gmv_prev
 - **contrib_ado / contrib_gmv**: Mức độ đóng góp vào tăng trưởng chung
       contrb_ado = diff_ado / total_diff_ado
 - **share_ado / share_gmv**: Tỷ trọng ADO/GMV
