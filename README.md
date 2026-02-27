@@ -66,8 +66,35 @@ Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
   - **Tỷ trọng (Share)** = Giá trị danh mục / Tổng giá trị
 
 ---
+## 5. XỬ LÝ DỮ LIỆU (SQL LAYER)
 
-## 5. NỘI DUNG PHÂN TÍCH
+SQL được sử dụng để tiền xử lý và tạo dữ liệu đầu vào cho bước phân tích bằng Python.
+
+- **Bước 1: Hợp nhất dữ liệu theo tháng**
+
+  - Union các bảng dữ liệu theo từng tháng
+
+  - Tạo một view dữ liệu thống nhất
+
+- **Bước 2: Làm sạch và chuẩn hóa**
+
+  - Chuẩn hóa định dạng số
+
+  - Xử lý dữ liệu scientific notation
+
+  - Tạo trường year_month phục vụ phân tích theo thời gian
+
+- **Bước 3: Tổng hợp theo tháng**
+
+  - Tổng hợp ADO và AdGMV theo Level 2 và Items
+
+  - Tính chỉ số Month-over-Month (MoM) bằng window function LAG()
+
+Kết quả của bước SQL là dataset đã được làm sạch và tính toán tăng trưởng theo tháng, sẵn sàng cho phân tích chuyên sâu trong Google colab.
+
+Chi tiết: [cat_pfm_pipeline.sql](cat_pfm_pipeline.sql)
+
+## 6. NỘI DUNG PHÂN TÍCH
 
 ### PHẦN 1: TỔNG QUAN NGÀNH HÀNG
 
@@ -116,7 +143,7 @@ Trong dữ liệu gốc:
 - Phản ánh đúng hành vi tiêu dùng
 - Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
 
-Notebook: [02_product_keyword.ipynb](notebooks/02_product_keyword.ipynb)
+Chi tiết: [02_product_keyword.ipynb](notebooks/02_product_keyword.ipynb)
 
 ---
 
@@ -148,7 +175,7 @@ Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV2 --> 
   - Tập trung vào các sản phẩm thực sự tạo ra biến động
   - Chỉ ra được các sản phẩm ảnh hưởng vào tăng trưởng của ngành hàng
 
-Notebook: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
+Chi tiết: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 
 ---
 
@@ -170,7 +197,7 @@ Notebook: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 - Kết hợp tỷ trọng và tăng trưởng để phân tích
 
 
-Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
+Chi tiết: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
 ---
 ### Phần 5: XU HƯỚNG TĂNG TRƯỞNG
@@ -185,9 +212,9 @@ Notebook: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 **Output**:
 - Danh sách ngành hàng và sản phẩm rủi ro / tiềm năng.
 
-Notebook: [05_trend.ipynb](notebooks/05_trend_.ipynb)
+Chi tiết: [05_trend.ipynb](notebooks/05_trend_.ipynb)
 
-## 6. CẤU TRÚC REPOSITORY
+## 7. CẤU TRÚC REPOSITORY
 ```text
 quick-category-performance-report/
 │
@@ -209,10 +236,11 @@ quick-category-performance-report/
     └── charts.py
 
 ```
-## Báo cáo đầu ra 
+## 8.Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
 [link](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html).
-## 7. KẾT QUẢ ĐẠT ĐƯỢC
+
+## 9. KẾT QUẢ ĐẠT ĐƯỢC
 - Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
 - Giảm sai sót so với thao tác thủ công
 - Tạo framework phân tích có thể tái sử dụng cho các kỳ tiếp theo
