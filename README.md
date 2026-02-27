@@ -251,7 +251,7 @@ Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Ho
 - **Vehicle Essentials**
   - Tăng trưởng ADO tập trung vào **Safety Gear, In-car Utilities và Vehicle Add-ons**, đóng góp hơn 100% mức tăng ròng.
   Điều này cho thấy tăng trưởng mang tính tập trung, phụ thuộc vào một số nhóm chủ lực.
-  - **Safety Gear và In-car Utilities** vừa có tỷ trọng cao vừa tăng trưởng tích cực MoM, đóng vai trò tăng trưởng cốt lõi của ngành.
+  - **Safety Gear và In-car Utilities** vừa có tỷ trọng cao vừa tăng trưởng tích cực MoM, đóng vai trò tăng trưởng cốt lõi của ngành. Ngược lại, **Riding Accessories và Repair Components** có tỷ trọng lớn nhưng lại suy giảm ADO, cần chú trọng trong thời gian tới.
   - Bên cạnh đó, các nhóm **Mechanical Parts, Mobility Accessories, Personal Mobility và Safety Gear** ghi nhận tăng trưởng liên tiếp trong 2 tháng gần nhất, cho thấy tín hiệu tăng trưởng có tính bền vững hơn so với tăng trưởng ngắn hạn.
     
 ![Ảnh](image/vehical_diff.png)
