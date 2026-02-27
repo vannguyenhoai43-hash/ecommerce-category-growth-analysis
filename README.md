@@ -253,7 +253,6 @@ Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Ho
   - **Safety Gear và In-car Utilities** vừa có tỷ trọng cao vừa tăng trưởng tích cực MoM, đóng vai trò tăng trưởng cốt lõi của ngành.
   - Bên cạnh đó, các nhóm **Mechanical Parts, Mobility Accessories, Personal Mobility và Safety Gear** ghi nhận tăng trưởng liên tiếp trong 2 tháng gần nhất, cho thấy tín hiệu tăng trưởng có tính bền vững hơn so với tăng trưởng ngắn hạn.
     
-Biểu đồ tăng trưởng
 ![Ảnh](image/vehical_diff.png)
 
 - **Home & Technical Supplies**
@@ -261,7 +260,6 @@ Biểu đồ tăng trưởng
   - **Support Supplies** là nhóm vừa có tỷ trọng GMV cao vừa tăng trưởng tốt, đóng vai trò động lực chính của ngành.
   - Đồng thời, các nhóm như **Construction Materials, Electrical Components, Heavy-duty Equipment và Manual Tools** ghi nhận xu hướng tăng liên tiếp, cho thấy tăng trưởng có xu hướng lan tỏa và mở rộng hơn so với Vehicle Essentials.
 
-Biểu đồ tăng trưởng
 ![Ảnh](image/home_diff.png)
 
 ## 9. KẾT QUẢ ĐẠT ĐƯỢC
