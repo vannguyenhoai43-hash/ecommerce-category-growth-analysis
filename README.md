@@ -238,9 +238,10 @@ quick-category-performance-report/
 ```
 ## 8.Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
-[link](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html).
 
-### 8.1 Highlight insight
+[Báo cáo chi tiết](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html).
+
+### Highlight insight
 
 - Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
 Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Home & Technical Supplies tăng mạnh về GMV .
