@@ -92,7 +92,7 @@ SQL được sử dụng để tiền xử lý và tạo dữ liệu đầu vào
 
 Kết quả của bước SQL là dataset đã được làm sạch và tính toán tăng trưởng theo tháng, sẵn sàng cho phân tích chuyên sâu trong Google colab.
 
-Chi tiết: [cat_pfm_pipeline.sql](cat_pfm_pipeline.sql)
+Chi tiết: [cat_pfm_pipeline.sql](sql/cat_pfm_pipeline.sql)
 
 ## 6. NỘI DUNG PHÂN TÍCH
 
