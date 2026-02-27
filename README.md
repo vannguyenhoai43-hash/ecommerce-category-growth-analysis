@@ -240,6 +240,30 @@ quick-category-performance-report/
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
 [link](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html).
 
+### 8.1 Highlight insight
+
+- Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
+Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Home & Technical Supplies tăng mạnh về GMV .
+Điều này phản ánh sự khác biệt về cấu trúc ngành: Vehicle Essentials có xu hướng giao dịch nhiều nhưng giá trị đơn hàng thấp hơn, trong khi Home & Technical Supplies có giá trị đơn hàng cao hơn.
+
+![Ảnh](image/overview_chart.png)
+- **Vehicle Essentials**
+  - Tăng trưởng ADO tập trung vào **Safety Gear, In-car Utilities và Vehicle Add-ons**, đóng góp hơn 100% mức tăng ròng.
+  Điều này cho thấy tăng trưởng mang tính tập trung, phụ thuộc vào một số nhóm chủ lực.
+  - **Safety Gear và In-car Utilities** vừa có tỷ trọng cao vừa tăng trưởng tích cực MoM, đóng vai trò tăng trưởng cốt lõi của ngành.
+  - Bên cạnh đó, các nhóm **Mechanical Parts, Mobility Accessories, Personal Mobility và Safety Gear** ghi nhận tăng trưởng liên tiếp trong 2 tháng gần nhất, cho thấy tín hiệu tăng trưởng có tính bền vững hơn so với tăng trưởng ngắn hạn.
+    
+Biểu đồ tăng trưởng
+![Ảnh](image/vehical_diff.png)
+
+- **Home & Technical Supplies**
+  - **Home & Technical Supplies** tăng trưởng chủ yếu về GMV, trong đó **Construction Materials, Manual Tools và Support Supplies** đóng góp khoảng 81.9% mức tăng ròng.
+  - **Support Supplies** là nhóm vừa có tỷ trọng GMV cao vừa tăng trưởng tốt, đóng vai trò động lực chính của ngành.
+  - Đồng thời, các nhóm như **Construction Materials, Electrical Components, Heavy-duty Equipment và Manual Tools** ghi nhận xu hướng tăng liên tiếp, cho thấy tăng trưởng có xu hướng lan tỏa và mở rộng hơn so với Vehicle Essentials.
+
+Biểu đồ tăng trưởng
+![Ảnh](image/home_diff.png)
+
 ## 9. KẾT QUẢ ĐẠT ĐƯỢC
 - Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
 - Giảm sai sót so với thao tác thủ công
