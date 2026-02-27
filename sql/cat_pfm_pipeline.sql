@@ -1,12 +1,13 @@
-﻿/*
+-- ==========================================
 Category-Growth-analysis
 Author: Van
 Description:
 - Union monthly raw tables
 - Clean & standardize numeric fields
 - Calculate monthly delta using LAG
-*/
+-- ==========================================
 
+	
 ----------------------------------------
 -- B1: Union các tháng trong dữ liệu
 ----------------------------------------
@@ -17,7 +18,7 @@ SELECT * FROM Cat_Report.dbo.Aug
 UNION ALL
 SELECT * FROM Cat_Report.dbo.Sep;
 
--- Union thêm tháng sau khi có dự liệu 
+-- Union thêm tháng khi có dữ liệu mới
 
 -----------------------------------------------
 -- B2: Làm sạch và chuyển đổi dữ liệu tính toán
@@ -42,7 +43,7 @@ FROM sales_raw;
 SELECT * FROM sale_base;
 
 ---------------------------------------
---B3 Tạo bảng delta theo tháng
+--B3: Tạo bảng delta theo tháng
 ---------------------------------------
 
 -- Group theo level 2
@@ -98,3 +99,4 @@ FROM base_total_items
 )
 SELECT  *
 FROM total_items;
+
