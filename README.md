@@ -245,7 +245,7 @@ quick-category-performance-report/
 
 - Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
 Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Home & Technical Supplies tăng mạnh về GMV .
-Điều này phản ánh sự khác biệt về cấu trúc ngành: Vehicle Essentials có xu hướng giao dịch nhiều nhưng giá trị đơn hàng thấp hơn, trong khi Home & Technical Supplies có giá trị đơn hàng cao hơn.
+Điều này phản ánh sự khác biệt về cấu trúc ngành: Vehicle Essentials có xu hướng giao dịch nhiều đơn giá trị thấp, trong khi Home & Technical Supplies đơn có giá trị cao hơn.
 
 ![Ảnh](image/overview_chart.png)
 - **Vehicle Essentials**
