@@ -212,7 +212,7 @@ Chi tiết: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 **Output**:
 - Danh sách ngành hàng và sản phẩm rủi ro / tiềm năng.
 
-Chi tiết: [05_trend.ipynb](notebooks/05_trend_.ipynb)
+Chi tiết: [05_trend.ipynb](notebooks/05_trend.ipynb)
 
 ## 7. CẤU TRÚC REPOSITORY
 ```text
