@@ -2,7 +2,7 @@
 
 ## 1. Tổng quan dự án
 
-Dự án xây dựng một framework phân tích hiệu quả ngành hàng theo Month-over-Month (MoM) nhằm hỗ trợ team Category/Business:
+Dự án xây dựng một framework phân tích hiệu quả ngành hàng theo Month-over-Month (MoM) nhằm hỗ trợ team:
 
 - Hiểu bản chất tăng trưởng (volume hay value-driven)
 
