@@ -25,6 +25,8 @@ Dataset gồm:
 - 2 LV1 chính
 - 20+ LV2
 - ~300.000 product record
+- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
+Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
 
 ## 3. Tech stack
 - SQL (Data cleaning & aggregation)
@@ -119,7 +121,7 @@ Xây dựng logic cảnh báo:
 
 Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
 
-## 5 Data & Validation
+## 5. Data & Validation
 
 Cấp độ phân tích:
 
