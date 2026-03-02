@@ -56,7 +56,7 @@ Tổng quan → Động lực → Chất lượng → Xu hướng
 
 Phân tích theo mô hình drill-down:
 
-Ngành hàng Level 1 → Ngành hàng Level 2 → nhóm sản phẩm (đã chuẩn hóa)
+Ngành hàng Level 1 → Ngành hàng Level 2 → nhóm sản phẩm (đã chuẩn hóa theo keywords)
 
 Tại mỗi cấp độ, tính:
 
@@ -111,13 +111,13 @@ Mục tiêu:
 
 - Phản ánh đúng hành vi tiêu dùng
 
-### 4.4 Phát hiện xu hướng và rủi ro sớm
+### 4.4 Xu hướng, đánh giá rủi ro và tiềm năng: 
 
-Xây dựng logic cảnh báo:
+Xây dựng theo logic:
 
-- LV2 giảm liên tiếp ≥ 2 tháng
+- LV2 tăng/giảm liên tiếp ≥ 2 tháng gần nhất
 
-- Sản phẩm giảm liên tiếp + mức giảm lớn + share cao
+- Sản phẩm tăng/giảm liên tiếp + mức giảm lớn + tỷ trọng ADO/AdGMV cao
 
 Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
 
