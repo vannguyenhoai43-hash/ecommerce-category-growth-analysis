@@ -20,13 +20,15 @@ Khi có dữ liệu tháng mới, chỉ cần cập nhật input, toàn bộ pip
 
 ## 2. Dataset 
 
+Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
+Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
+
 Dataset gồm:
 - 3 tháng dữ liệu
 - 2 LV1 chính
 - 20+ LV2
 - ~300.000 product record
-- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
-Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
+
 
 ## 3. Tech stack
 - SQL (Data cleaning & aggregation)
@@ -36,23 +38,45 @@ Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
 
 Khi kết thúc tháng, các câu hỏi thực tế từ business bao gồm:
 
-- Vì sao ADO/AdGMV tăng hoặc giảm?
+1. Hiệu suất Level 1 thay đổi thế nào theo tháng?
 
-- Ngành hàng cấp 2 nào đang đóng góp chính?
+2. LV2 và sản phẩm tương ứng nào đang thúc đẩy hoặc kìm hãm tăng trưởng?
 
-- Tăng trưởng có tập trung vào một vài nhóm nhỏ không?
+3. Tăng trưởng hiện tại có bền vững không?
 
-- Có ngành hàng lớn nào đang suy giảm ngầm nhưng chưa thể hiện rõ ở tổng thể?
+4. LV2 nào có xu hướng tăng/giảm liên tục trong 3 tháng?
 
-- Xu hướng này là ngắn hạn hay có tính liên tục?
+5. Sản phẩm nào cần ưu tiên theo dõi?
 
 Framework được xây dựng để trả lời các câu hỏi trên theo cấu trúc rõ ràng:
 
 Tổng quan → Động lực → Chất lượng → Xu hướng 
 
-## 4. Phương pháp phân tích
+## 5. Chỉ số
 
-### 4.1 Phân tích tăng trưởng theo cấu trúc
+### 5.1 Cấp độ phân tích:
+
+- LV1: Ngành hàng cấp 1 
+
+- LV2: Ngành hàng cấp 2 
+
+- Nhóm sản phẩm (chuẩn hóa từ tên sản phẩm)
+
+### 5.2 Chỉ số chính:
+
+- ADO (Average Daily Orders)
+
+- AdGMV (Average Daily GMV)
+
+- Diff (Current – Previous)
+
+- Tỷ trọng tăng trưởng: contrib
+
+- Tỷ trọng ADO/AdGMV: share
+
+## 6. Phương pháp phân tích
+
+### 6.1 Phân tích tăng trưởng theo cấu trúc
 
 Phân tích theo mô hình drill-down:
 
@@ -70,7 +94,7 @@ Mục tiêu:
 
 Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do ai và mức độ phụ thuộc cao hay thấp.
 
-### 4.2 Đánh giá chất lượng tăng trưởng
+### 6.2 Đánh giá chất lượng tăng trưởng
 
 Kết hợp hai yếu tố:
 
@@ -89,7 +113,7 @@ Phân loại LV2:
 
 Cách tiếp cận này giúp ưu tiên hành động thay vì chỉ nhìn vào tăng trưởng tuyệt đối.
 
-### 4.3 Chuẩn hóa và gom nhóm sản phẩm
+### 6.3 Chuẩn hóa và gom nhóm sản phẩm
 
 Dữ liệu gốc có tình trạng phân mảnh tên sản phẩm.
 
@@ -111,7 +135,7 @@ Mục tiêu:
 
 - Phản ánh đúng hành vi tiêu dùng
 
-### 4.4 Xu hướng, đánh giá rủi ro và tiềm năng: 
+### 6.4 Xu hướng, đánh giá rủi ro và tiềm năng: 
 
 Xây dựng theo logic:
 
@@ -121,31 +145,7 @@ Xây dựng theo logic:
 
 Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
 
-## 5. Data & Validation
-
-Cấp độ phân tích:
-
-- LV1: Ngành hàng cấp 1 
-
-- LV2: Ngành hàng cấp 2 
-
-- Nhóm sản phẩm (chuẩn hóa từ tên sản phẩm)
-
-Chỉ số chính:
-
-- ADO (Average Daily Orders)
-
-- AdGMV (Average Daily GMV)
-
-Trước khi tính MoM:
-
-- Chuẩn hóa định dạng dữ liệu
-
-- Loại bỏ giá trị bất thường ảnh hưởng đến tăng trưởng
-
-Mục tiêu: đảm bảo MoM phản ánh thay đổi thực tế, không bị méo bởi lỗi dữ liệu.
-
-## 6. Pipeline xử lý dữ liệu
+## 7. Pipeline xử lý dữ liệu
 
 SQL Layer
 
@@ -187,7 +187,7 @@ Notebook:
 
 [05_trend](notebooks/05_trend.ipynb)
 
-## 7. Ví dụ Insight thực tế
+## 8. Ví dụ Insight thực tế
 
 Tháng 9:
 
@@ -219,7 +219,7 @@ Kết luận:
 
 - Cùng là tăng trưởng, nhưng mức độ ổn định và mức độ phụ thuộc cấu trúc khác nhau → cần chiến lược vận hành khác nhau.
 
-## 8. Impact đạt được
+## 9. Impact đạt được
 
 - Giảm thời gian chuẩn bị báo cáo từ ~40 phút xuống 10–15 phút
 
@@ -231,7 +231,7 @@ Kết luận:
 
 - Nâng cấp báo cáo từ “mô tả số liệu” sang “giải thích bản chất tăng trưởng”
 
-## 9. CẤU TRÚC REPOSITORY
+## 10. CẤU TRÚC REPOSITORY
 ```text
 quick-category-performance-report/
 │
@@ -253,7 +253,7 @@ quick-category-performance-report/
     └── charts.py
 
 ```
-## 10.Báo cáo đầu ra 
+## 11.Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
 
 [BÁO CÁO CHI TIẾT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
