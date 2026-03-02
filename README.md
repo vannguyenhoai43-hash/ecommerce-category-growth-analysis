@@ -169,8 +169,7 @@ Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV2 --> 
 
 **Bước 2 – Cấp sản phẩm**
 - Với mỗi LV2 được chọn:
-  - Phân tích các sản phẩm:
-    - Có mức đóng góp tăng trưởng lớn và tăng/giảm mạnh nhất trong kỳ
+  - Phân tích các sản phẩm  ó mức đóng góp tăng trưởng lớn và tăng/giảm mạnh nhất trong kỳ
 - Mục tiêu:
   - Tập trung vào các sản phẩm thực sự tạo ra biến động
   - Chỉ ra được các sản phẩm ảnh hưởng vào tăng trưởng của ngành hàng
@@ -195,7 +194,6 @@ Chi tiết: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
 **Output**:
 - Biểu đồ heatmap tỷ trọng theo tháng
 - Kết hợp tỷ trọng và tăng trưởng để phân tích
-
 
 Chi tiết: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
 
@@ -243,7 +241,7 @@ quick-category-performance-report/
 
 ### Highlight insight
 
-- Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
+Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
 Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Home & Technical Supplies tăng mạnh về GMV .
 Điều này phản ánh sự khác biệt về cấu trúc ngành: Vehicle Essentials có xu hướng giao dịch nhiều đơn giá trị thấp, trong khi Home & Technical Supplies đơn có giá trị cao hơn.
 
