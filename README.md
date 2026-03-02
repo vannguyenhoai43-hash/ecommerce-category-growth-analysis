@@ -22,22 +22,22 @@ Framework được thiết kế theo hướng:
 
 Dự án tập trung trả lời các câu hỏi:
 
-1. **Hiệu suất tổng thể của ngành hàng Level 1 thay đổi như thế nào qua các tháng?**  
-   → Đánh giá mức tăng/giảm của đơn và doanh thu theo tháng để nắm bức tranh tổng quan của ngành.
+### 1. **Hiệu suất tổng thể của ngành hàng Level 1 thay đổi như thế nào qua các tháng?**  
+     Đánh giá mức tăng/giảm của đơn và doanh thu theo tháng để nắm bức tranh tổng quan của ngành.
 
-2. **Những yếu tố nào đang thúc đẩy hoặc kìm hãm tăng trưởng của Level 1?**  
-   → Phân tích ngành hàng Level 2 và sản phẩm đóng vai trò chính trong mức tăng/giảm của đơn và doanh thu.
+### 2. **Những yếu tố nào đang thúc đẩy hoặc kìm hãm tăng trưởng của Level 1?**  
+    Phân tích ngành hàng Level 2 và sản phẩm đóng vai trò chính trong mức tăng/giảm của đơn và doanh thu.
 
-3. **Tăng trưởng hiện tại có chất lượng hay không?**  
-   → Phân tích sự thay đổi tỷ trọng đơn và doanh thu để phân biệt:
+### 3. **Tăng trưởng hiện tại có chất lượng hay không?**  
+    Phân tích sự thay đổi tỷ trọng đơn và doanh thu để phân biệt:
    - Ngành hàng tăng trưởng tốt hoặc suy giảm dù chiếm tỷ trọng lớn.
    - Ngành hàng tăng trưởng nhanh nhưng xuất phát từ tỷ trọng nhỏ.
 
-4. **Ngành hàng Level 2 nào đang có xu hướng tăng hoặc giảm rõ rệt trong 3 tháng gần nhất?**  
-   → Phát hiện các xu hướng tăng/giảm mang tính liên tục thay vì chỉ biến động ngắn hạn theo từng tháng.
+### 4. **Ngành hàng Level 2 nào đang có xu hướng tăng hoặc giảm rõ rệt trong 3 tháng gần nhất?**  
+    Phát hiện các xu hướng tăng/giảm mang tính liên tục thay vì chỉ biến động ngắn hạn theo từng tháng.
 
-5. **Những sản phẩm nào cần được chú ý do có xu hướng tăng/ giảm đơn và doanh thu?**  
-   → Lọc các sản phẩm tăng trưởng/suy giảm liên tiếp, mức giảm đủ lớn và có tỷ trọng đóng góp cao.
+### 5. **Những sản phẩm nào cần được chú ý do có xu hướng tăng/ giảm đơn và doanh thu?**  
+    Lọc các sản phẩm tăng trưởng/suy giảm liên tiếp, mức giảm đủ lớn và có tỷ trọng đóng góp cao.
 
 ---
 
