@@ -1,218 +1,235 @@
-# Báo cáo nhanh hiệu quả ngành hàng (MoM)
+# Quick Category Performance Diagnosis Framework (MoM)
 
-## 1. GIỚI THIỆU DỰ ÁN
+## 1. Tổng quan dự án
 
-Dự án này xây dựng một **framework báo cáo nhanh hiệu quả ngành hàng theo tháng (Month-over-Month)**,  
-nhằm hỗ trợ phân tích và trả lời nhanh các câu hỏi kinh doanh chính ngay khi có dữ liệu tháng mới.
+Dự án xây dựng một framework phân tích hiệu quả ngành hàng theo Month-over-Month (MoM) nhằm hỗ trợ team Category/Business:
 
-Framework được thiết kế theo hướng:
-- Xử lý dữ liệu thô và tổng hợp dữ liệu nhiều tháng bằng **SQL**
-- Phân tích, tính toán chỉ số và trực quan hóa bằng **Python (Google Colab)**
-- Có thể tái sử dụng cho nhiều tháng sau khi nhập dữ liệu mới
+- Hiểu bản chất tăng trưởng (volume hay value-driven)
 
----
+- Xác định chính xác động lực tăng/giảm
 
-## 2.TECH STACK
+- Phát hiện sớm rủi ro cấu trúc
+
+- Chuẩn hóa quy trình review hiệu suất hàng tháng
+
+Thay vì chỉ báo cáo % tăng trưởng, framework tập trung vào phân tích tăng trưởng và đánh giá chất lượng tăng trưởng, giúp việc ra quyết định dựa trên cấu trúc dữ liệu thay vì cảm tính.
+
+Framework được thiết kế để tái sử dụng:
+
+Khi có dữ liệu tháng mới, chỉ cần cập nhật input, toàn bộ pipeline và logic phân tích vẫn giữ nguyên.
+
+## 2. Dataset 
+
+Dataset gồm:
+- 3 tháng dữ liệu
+- 2 LV1 chính
+- 20+ LV2
+- ~300.000 product record
+
+## 3. Tech stack
 - SQL (Data cleaning & aggregation)
 - Google Colab (Pandas, Numpy, Matplotlib)
-  
----
 
-## 3. MỤC TIÊU VÀ CÂU HỎI KINH DOANH
+## 4. Bài toán kinh doanh
 
-Dự án tập trung trả lời các câu hỏi:
+Khi kết thúc tháng, các câu hỏi thực tế từ business bao gồm:
 
-### 1. **Hiệu suất tổng thể của ngành hàng Level 1 thay đổi như thế nào qua các tháng?**  
-     Đánh giá mức tăng/giảm của đơn và doanh thu theo tháng để nắm bức tranh tổng quan của ngành.
+- Vì sao ADO/AdGMV tăng hoặc giảm?
 
-### 2. **Những yếu tố nào đang thúc đẩy hoặc kìm hãm tăng trưởng của Level 1?**  
-    Phân tích ngành hàng Level 2 và sản phẩm đóng vai trò chính trong mức tăng/giảm của đơn và doanh thu.
+- Ngành hàng cấp 2 nào đang đóng góp chính?
 
-### 3. **Tăng trưởng hiện tại có chất lượng hay không?**  
-    Phân tích sự thay đổi tỷ trọng đơn và doanh thu để phân biệt:
-   - Ngành hàng tăng trưởng tốt hoặc suy giảm dù chiếm tỷ trọng lớn.
-   - Ngành hàng tăng trưởng nhanh nhưng xuất phát từ tỷ trọng nhỏ.
+- Tăng trưởng có tập trung vào một vài nhóm nhỏ không?
 
-### 4. **Ngành hàng Level 2 nào đang có xu hướng tăng hoặc giảm rõ rệt trong 3 tháng gần nhất?**  
-    Phát hiện các xu hướng tăng/giảm mang tính liên tục thay vì chỉ biến động ngắn hạn theo từng tháng.
+- Có ngành hàng lớn nào đang suy giảm ngầm nhưng chưa thể hiện rõ ở tổng thể?
 
-### 5. **Những sản phẩm nào cần được chú ý do có xu hướng tăng/ giảm đơn và doanh thu?**  
-    Lọc các sản phẩm tăng trưởng/suy giảm liên tiếp, mức giảm đủ lớn và có tỷ trọng đóng góp cao.
+- Xu hướng này là ngắn hạn hay có tính liên tục?
 
----
+Framework được xây dựng để trả lời các câu hỏi trên theo cấu trúc rõ ràng:
 
-## 4. PHẠM VI DỮ LIỆU VÀ CÁC CHỈ SỐ
+Tổng quan → Động lực → Chất lượng → Xu hướng 
 
-### Dữ liệu
-- Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
-Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
+## 4. Phương pháp phân tích
 
-### Cấp độ phân tích
-- **Level 1 (LV1)**: Ngành hàng cấp 1  
-- **Level 2 (LV2)**: Ngành hàng cấp 2 
-- **Items**        : Sản phẩm
+### 4.1 Phân tích tăng trưởng theo cấu trúc
 
-### Chỉ số chính
-- **ADO**: Số lượng đơn hàng ngày
-- **AdGMV**: Giá trị doanh thu hàng ngày
-- Các chỉ số khác được tính toán theo cùng công thức cho cả ADO và AdGMV:
+Phân tích theo mô hình drill-down:
 
-  - **Tăng trưởng tuyệt đối** = Kỳ hiện tại − Kỳ trước
-  
-  - **Tăng trưởng MoM (%)** = Tăng trưởng tuyệt đối / Kỳ trước
-  
-  - **Mức độ đóng góp** = Tăng trưởng của danh mục / Tổng tăng trưởng
-  
-  - **Tỷ trọng (Share)** = Giá trị danh mục / Tổng giá trị
+Ngành hàng Level 1 → Ngành hàng Level 2 → nhóm sản phẩm (đã chuẩn hóa)
 
----
-## 5. XỬ LÝ DỮ LIỆU (SQL LAYER)
+Tại mỗi cấp độ, tính:
 
-SQL được sử dụng để tiền xử lý và tạo dữ liệu đầu vào cho bước phân tích bằng Python.
+    Diff (Current – Previous)
 
-- **Bước 1: Hợp nhất dữ liệu theo tháng**
+    MoM %
 
-  - Union các bảng dữ liệu theo từng tháng
+    Tỷ trọng đóng góp vào tổng tăng trưởng
 
-  - Tạo một view dữ liệu thống nhất
+Mục tiêu:
 
-- **Bước 2: Làm sạch và chuẩn hóa**
+Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do ai và mức độ phụ thuộc cao hay thấp.
 
-  - Chuẩn hóa định dạng số
+### 4.2 Đánh giá chất lượng tăng trưởng
 
-  - Xử lý dữ liệu scientific notation
+Kết hợp hai yếu tố:
 
-  - Tạo trường year_month phục vụ phân tích theo thời gian
+    Diff_ado/ Diff_gmv
 
-- **Bước 3: Tổng hợp theo tháng**
+    Tỷ trọng cấu trúc ADO/AdGMV
 
-  - Tổng hợp ADO và AdGMV theo Level 2 và Items
+Phân loại LV2:
 
-  - Tính chỉ số Month-over-Month (MoM) bằng window function LAG()
+- Share lớn + tăng trưởng → Trụ cột tăng trưởng
 
-Kết quả của bước SQL là dataset đã được làm sạch và tính toán tăng trưởng theo tháng, sẵn sàng cho phân tích chuyên sâu trong Google colab.
+- Share lớn + suy giảm → Rủi ro cấu trúc
 
-Chi tiết: [cat_pfm_pipeline.sql](sql/cat_pfm_pipeline.sql)
+- Share nhỏ + tăng trưởng → Cơ hội phát triển
 
-## 6. NỘI DUNG PHÂN TÍCH
 
-### PHẦN 1: TỔNG QUAN NGÀNH HÀNG
+Cách tiếp cận này giúp ưu tiên hành động thay vì chỉ nhìn vào tăng trưởng tuyệt đối.
 
-Phần này cung cấp **bức tranh tổng quan về xu hướng tăng/giảm MoM của ngành hàng LV1** 
-dựa trên hai chỉ số chính: **ADO** và **AdGMV**.
+### 4.3 Chuẩn hóa và gom nhóm sản phẩm
 
-#### Nội dung phân tích
-- So sánh biến động MoM của LV1 theo:
-  - ADO 
-  - AdGMV
-- Đặt ADO và AdGMV trong cùng một biểu đồ để:
-  - Quan sát xu hướng đồng pha / lệch pha
-  - Làm cơ sở cho các bước phân tích động lực tăng trưởng ở các phần sau
+Dữ liệu gốc có tình trạng phân mảnh tên sản phẩm.
 
-#### Output
-- Khái quát xu hướng tăng trưởng chung của toàn ngành LV1 theo thời gian
-- Biểu đồ kết hợp:
-  - Cột: AdGMV
-  - Đường: ADO  
+Giải pháp:
 
-Chi tiết: [01_overview.ipynb](notebooks/01_overview.ipynb)
+- Chuẩn hóa text
 
----
+- Loại bỏ từ nhiễu
 
-### PHẦN 2: CHUẨN HÓA VÀ GOM NHÓM SẢN PHẨM
+- Giữ lại 5 từ khóa chính
 
-Trong dữ liệu gốc:
-- Mỗi dòng là một **tên sản phẩm duy nhất**
-- Tuy nhiên, nhiều sản phẩm khác tên nhưng thực tế thuộc **cùng một nhóm sản phẩm**
+- Nhóm theo từ khóa sản phẩm 
 
-**Ví dụ:**
-- “Mũ Bảo Hiểm Nửa Đầu 1/2 Sơn Nhám Có Lỗ Thông Gió Freesize Cho Nam Nữ”
-- “[Siêu Sale]Mũ bảo hiểm nửa đầu cao cấp cực đẹp và sang phù hợp cả nam và nữ giá rẻ ”  
-→ Cùng thuộc nhóm **“mũ bảo hiểm nửa đầu”**
+Mục tiêu:
 
-**Cách xử lý:**
-- Làm sạch tên sản phẩm:
-  - Loại bỏ từ gây nhiễu (mô tả, quảng cáo, cảm tính)
-  - Chuẩn hoá text
-  - Giữ lại **5 từ khoá chính**
-- Group lại dữ liệu theo **nhóm sản phẩm đã chuẩn hoá**
-- Phân tích tăng trưởng dựa trên nhóm này thay vì tên sản phẩm thô
+- Giảm nhiễu phân tích
 
-**Mục tiêu:**
-- Giảm phân mảnh dữ liệu
+- Tránh đếm lặp sản phẩm cùng bản chất
+
 - Phản ánh đúng hành vi tiêu dùng
-- Nhận diện chính xác các nhóm sản phẩm tăng/giảm mạnh
 
-Chi tiết: [02_product_keyword.ipynb](notebooks/02_product_keyword.ipynb)
+### 4.4 Phát hiện xu hướng và rủi ro sớm
 
----
+Xây dựng logic cảnh báo:
 
-### PHẦN 3: PHÂN TÍCH ĐỘNG LỰC TĂNG TRƯỞNG
+- LV2 giảm liên tiếp ≥ 2 tháng
 
-### Mục tiêu
-Phân tích động lực tăng trưởng của từng ngành hàng LV1 theo tháng (MoM), xác định:
-- Ngành hàng LV2 nào đóng góp chính vào tăng/giảm
-- Các nhóm sản phẩm cụ thể tác động lớn đến kết quả
+- Sản phẩm giảm liên tiếp + mức giảm lớn + share cao
 
-### Phương pháp phân tích
+Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
 
-Phân tích được thực hiện từ cấp cao đến cấp thấp ( LV2 --> Sản phẩm), từ tổng quan đến chi tiết:
+4.5. Data & Validation
 
-**Bước 1 – Cấp LV2**
-- Với mỗi LV1:
-  - Lấy **Top 3 LV2 tăng trưởng dương**
-  - Lấy **Top 3 LV2 tăng trưởng âm**
-- Chỉ số:
-  - `diff_ADO`
-  - `diff_AdGMV`
-- Đánh giá mức độ đóng góp của từng LV2 vào tổng biến động của LV1
+Cấp độ phân tích:
 
-**Bước 2 – Cấp sản phẩm**
-- Với mỗi LV2 được chọn:
-  - Phân tích các sản phẩm  ó mức đóng góp tăng trưởng lớn và tăng/giảm mạnh nhất trong kỳ
-- Mục tiêu:
-  - Tập trung vào các sản phẩm thực sự tạo ra biến động
-  - Chỉ ra được các sản phẩm ảnh hưởng vào tăng trưởng của ngành hàng
+- LV1: Ngành hàng cấp 1 
 
-Chi tiết: [03_growth_driver.ipynb](notebooks/03_growth_driver_.ipynb)
+- LV2: Ngành hàng cấp 2 
 
----
+- Nhóm sản phẩm (chuẩn hóa từ tên sản phẩm)
 
-### PHẦN 4: CHẤT LƯỢNG TĂNG TRƯỞNG
+Chỉ số chính:
 
-- Phân tích thay đổi tỷ trọng qua các tháng:
-  - ADO share
-  - AdGMV share
-- Phân nhóm LV2:
-  - **Tỷ trọng lớn & tăng trưởng nhanh**  
-    `diff_ado/gmv lớn + ado/gmv_share lớn`
-  - **Tỷ trọng nhỏ & tăng trưởng nhanh**  
-    `diff_ado/gmv lớn + ado/gmv_share nhỏ`
-  - **Tỷ trọng lớn & tăng trưởng chậm/ suy giảm** 
-    `diff_ado/gmv âm + ado/gmv_share lớn`
+- ADO (Average Daily Orders)
 
-**Output**:
-- Biểu đồ heatmap tỷ trọng theo tháng
-- Kết hợp tỷ trọng và tăng trưởng để phân tích
+- AdGMV (Average Daily GMV)
 
-Chi tiết: [04_quality_growth.ipynb](notebooks/04_quality_growth.ipynb)
+Trước khi tính MoM:
 
----
-### Phần 5: XU HƯỚNG TĂNG TRƯỞNG
+- Chuẩn hóa định dạng dữ liệu
 
-- Phân tích xu hướng tăng/giảm của LV2:
-  - Lv2 giảm liên tiếp ít nhất 2 tháng gần nhất
-- Phân tích xu hướng sản phẩm theo 3 lớp:
-  - **Lớp 1**: `diff_ado/gmv âm` liên tiếp ít nhất 2 tháng gần nhất
-  - **Lớp 2**: Tổng mức giảm ADO/GMV lớn (`abs(sum(diff_ado/gmv))`)
-  - **Lớp 3**: Sản phẩm có `max(share_ado/gmv)` lớn giữa các tháng
+- Loại bỏ giá trị bất thường ảnh hưởng đến tăng trưởng
 
-**Output**:
-- Danh sách ngành hàng và sản phẩm rủi ro / tiềm năng.
+Mục tiêu: đảm bảo MoM phản ánh thay đổi thực tế, không bị méo bởi lỗi dữ liệu.
 
-Chi tiết: [05_trend.ipynb](notebooks/05_trend.ipynb)
+## 5. Pipeline xử lý dữ liệu
 
-## 7. CẤU TRÚC REPOSITORY
+SQL Layer
+
+- Union dữ liệu nhiều tháng
+
+- Chuẩn hóa định dạng
+
+- Tạo trường year_month
+
+- Aggregate theo LV2 và Product
+
+- Tính MoM bằng window function LAG()
+
+Output: Dataset sạch, có data dữ liệu kỳ trước, phục vụ cho phân tích dữ liệu sau nay.
+
+File: cat_pfm_pipeline.sql
+
+Python Layer
+
+- Xử lý text sản phẩm
+
+- Tính tỷ trọng tăng trưởng và tỷ trọng ADO/AdGMV
+
+- Phân loại chất lượng tăng trưởng
+
+- Xây dựng logic cảnh báo xu hướng
+
+- Trực quan hóa phục vụ storytelling
+
+Notebook:
+
+[01_overview](notebooks/01_overview.ipynb)
+
+[02_product_keyword](notebooks/02_product_keyword.ipynb)
+
+[03_growth_driver](notebooks/03_growth_driver.ipynb)
+
+[04_quality_growth](notebooks/04_quality_growth.ipynb)
+
+[05_trend](notebooks/05_trend.ipynb)
+
+## 6. Ví dụ Insight thực tế
+
+Tháng 9:
+
+Hai ngành Vehicle Essentials và Home & Technical Supplies tăng +6.71% ADO và +14.64% GMV MoM
+
+![Ảnh](image/overview_chart.png)
+
+Tuy nhiên, cấu trúc tăng trưởng khác nhau:
+
+- Vehicle Essentials tăng trưởng theo số lượng đơn hàng , phụ thuộc vào 3 top LV2 chính (đóng góp >100% mức tăng ròng)
+
+→ tăng trưởng tập trung, rủi ro phụ thuộc cao.
+
+![Ảnh](image/vehical_diff.png)
+
+Home & Technical Supplies tăng trưởng theo giá trị đơn hàng, 3 top LV2 đóng góp ~81.9% 
+
+→ cấu trúc lan tỏa và ổn định hơn.
+
+![Ảnh](image/home_diff.png)
+
+Ngoài ra:
+
+- Một số LV2 có tỷ trọng ADO/AdGMV lớn nhưng giảm liên tiếp → cảnh báo rủi ro cấu trúc
+
+- Một số nhóm tăng liên tiếp ≥ 2 tháng → tín hiệu tăng trưởng bền vững
+
+Kết luận:
+
+- Cùng là tăng trưởng, nhưng mức độ ổn định và mức độ phụ thuộc cấu trúc khác nhau → cần chiến lược vận hành khác nhau.
+
+## 7. Impact đạt được
+
+- Giảm thời gian chuẩn bị báo cáo từ ~40 phút xuống 10–15 phút
+
+- Chuẩn hóa logic phân tích → giảm sai sót thủ công
+
+- Hỗ trợ xác định sớm nhóm ngành có rủi ro cấu trúc
+
+- Tạo framework tái sử dụng cho các kỳ tiếp theo
+
+- Nâng cấp báo cáo từ “mô tả số liệu” sang “giải thích bản chất tăng trưởng”
+
+## 8. CẤU TRÚC REPOSITORY
 ```text
 quick-category-performance-report/
 │
@@ -234,34 +251,9 @@ quick-category-performance-report/
     └── charts.py
 
 ```
-## 8.Báo cáo đầu ra 
+## 9.Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
 
 [BÁO CÁO CHI TIẾT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
 
-### Highlight insight
 
-Tháng 9, hai ngành hàng **Vehicle Essentials & Home & Technical Supplies** tăng +6.71% ADO và +14.64% GMV MoM.
-Vehicle Essentials ghi nhận tăng trưởng nổi bật về ADO, trong khi Home & Technical Supplies tăng mạnh về GMV .
-Điều này phản ánh sự khác biệt về cấu trúc ngành: Vehicle Essentials có xu hướng giao dịch nhiều đơn giá trị thấp, trong khi Home & Technical Supplies đơn có giá trị cao hơn.
-
-![Ảnh](image/overview_chart.png)
-- **Vehicle Essentials**
-  - Tăng trưởng ADO tập trung vào **Safety Gear, In-car Utilities và Vehicle Add-ons**, đóng góp hơn 100% mức tăng ròng.
-  Điều này cho thấy tăng trưởng mang tính tập trung, phụ thuộc vào một số nhóm chủ lực.
-  - **Safety Gear và In-car Utilities** vừa có tỷ trọng cao vừa tăng trưởng tích cực MoM, đóng vai trò tăng trưởng cốt lõi của ngành. Ngược lại, **Riding Accessories và Repair Components** có tỷ trọng lớn nhưng lại suy giảm ADO, cần chú trọng trong thời gian tới.
-  - Bên cạnh đó, các nhóm **Mechanical Parts, Mobility Accessories, Personal Mobility và Safety Gear** ghi nhận tăng trưởng liên tiếp trong 2 tháng gần nhất, cho thấy tín hiệu tăng trưởng có tính bền vững hơn so với tăng trưởng ngắn hạn.
-    
-![Ảnh](image/vehical_diff.png)
-
-- **Home & Technical Supplies**
-  - **Home & Technical Supplies** tăng trưởng chủ yếu về GMV, trong đó **Construction Materials, Manual Tools và Support Supplies** đóng góp khoảng 81.9% mức tăng ròng.
-  - **Support Supplies** là nhóm vừa có tỷ trọng GMV cao vừa tăng trưởng tốt, đóng vai trò động lực chính của ngành.
-  - Đồng thời, các nhóm như **Construction Materials, Electrical Components, Heavy-duty Equipment và Manual Tools** ghi nhận xu hướng tăng liên tiếp, cho thấy tăng trưởng có xu hướng lan tỏa và mở rộng hơn so với Vehicle Essentials.
-
-![Ảnh](image/home_diff.png)
-
-## 9. KẾT QUẢ ĐẠT ĐƯỢC
-- Giảm thời gian làm báo cáo từ ~40 phút xuống còn 10–15 phút
-- Giảm sai sót so với thao tác thủ công
-- Tạo framework phân tích có thể tái sử dụng cho các kỳ tiếp theo
