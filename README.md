@@ -119,7 +119,7 @@ Xây dựng logic cảnh báo:
 
 Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
 
-4.5. Data & Validation
+## 5 Data & Validation
 
 Cấp độ phân tích:
 
@@ -143,7 +143,7 @@ Trước khi tính MoM:
 
 Mục tiêu: đảm bảo MoM phản ánh thay đổi thực tế, không bị méo bởi lỗi dữ liệu.
 
-## 5. Pipeline xử lý dữ liệu
+## 6. Pipeline xử lý dữ liệu
 
 SQL Layer
 
@@ -185,7 +185,7 @@ Notebook:
 
 [05_trend](notebooks/05_trend.ipynb)
 
-## 6. Ví dụ Insight thực tế
+## 7. Ví dụ Insight thực tế
 
 Tháng 9:
 
@@ -217,7 +217,7 @@ Kết luận:
 
 - Cùng là tăng trưởng, nhưng mức độ ổn định và mức độ phụ thuộc cấu trúc khác nhau → cần chiến lược vận hành khác nhau.
 
-## 7. Impact đạt được
+## 8. Impact đạt được
 
 - Giảm thời gian chuẩn bị báo cáo từ ~40 phút xuống 10–15 phút
 
@@ -229,7 +229,7 @@ Kết luận:
 
 - Nâng cấp báo cáo từ “mô tả số liệu” sang “giải thích bản chất tăng trưởng”
 
-## 8. CẤU TRÚC REPOSITORY
+## 9. CẤU TRÚC REPOSITORY
 ```text
 quick-category-performance-report/
 │
@@ -251,7 +251,7 @@ quick-category-performance-report/
     └── charts.py
 
 ```
-## 9.Báo cáo đầu ra 
+## 10.Báo cáo đầu ra 
 Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
 
 [BÁO CÁO CHI TIẾT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
