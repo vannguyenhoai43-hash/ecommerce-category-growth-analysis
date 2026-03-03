@@ -4,11 +4,11 @@
 
 Dự án xây dựng một framework phân tích hiệu quả ngành hàng theo Month-over-Month (MoM) nhằm hỗ trợ team:
 
-- Hiểu bản chất tăng trưởng (volume hay value-driven)
+- Hiểu bản chất tăng trưởng từ đơn hàng hay giá trị đơn
 
 - Xác định chính xác động lực tăng/giảm
 
-- Phát hiện sớm rủi ro cấu trúc
+- Phát hiện sớm rủi ro xu hướng
 
 - Chuẩn hóa quy trình review hiệu suất hàng tháng
 
@@ -27,7 +27,7 @@ Dataset gồm:
 - 3 tháng dữ liệu
 - 2 LV1 chính
 - 20+ LV2
-- ~300.000 product record
+- ~500.000 items record
 
 
 ## 3. Tech stack
@@ -92,7 +92,7 @@ Tại mỗi cấp độ, tính:
 
 Mục tiêu:
 
-Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do ai và mức độ phụ thuộc cao hay thấp.
+Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do đâu và mức độ phụ thuộc cao hay thấp.
 
 ### 6.2 Đánh giá chất lượng tăng trưởng
 
@@ -100,15 +100,15 @@ Kết hợp hai yếu tố:
 
     Diff_ado/ Diff_gmv
 
-    Tỷ trọng cấu trúc ADO/AdGMV
+    Tỷ trọng ADO/AdGMV
 
 Phân loại LV2:
 
-- Share lớn + tăng trưởng → Trụ cột tăng trưởng
+- Tỷ trọng lớn + tăng trưởng → Trụ cột tăng trưởng
 
-- Share lớn + suy giảm → Rủi ro cấu trúc
+- Tỷ trọng  lớn + suy giảm → Rủi ro cấu trúc
 
-- Share nhỏ + tăng trưởng → Cơ hội phát triển
+- Tỷ trọng  nhỏ + tăng trưởng → Cơ hội phát triển
 
 
 Cách tiếp cận này giúp ưu tiên hành động thay vì chỉ nhìn vào tăng trưởng tuyệt đối.
@@ -143,27 +143,27 @@ Xây dựng theo logic:
 
 - Sản phẩm tăng/giảm liên tiếp + mức giảm lớn + tỷ trọng ADO/AdGMV cao
 
-Điều này giúp phát hiện sớm các nhóm có nguy cơ ảnh hưởng đến GMV tổng trước khi biểu hiện rõ ở cấp LV1.
+Điều này giúp phát hiện sớm các nhóm nguy cơ có ảnh hưởng tới ADO/AdGMV tổng, trước khi biểu hiện rõ ở cấp LV1.
 
 ## 7. Pipeline xử lý dữ liệu
 
-SQL Layer
+### **SQL Layer**
 
 - Union dữ liệu nhiều tháng
 
-- Chuẩn hóa định dạng
+- Chuẩn hóa datatype
 
 - Tạo trường year_month
 
 - Aggregate theo LV2 và Product
 
-- Tính MoM bằng window function LAG()
+- Tạo cột dữ liệu kì trước bằng window function LAG()
 
 Output: Dataset sạch, có data dữ liệu kỳ trước, phục vụ cho phân tích dữ liệu sau nay.
 
 File: cat_pfm_pipeline.sql
 
-Python Layer
+### **Python Layer**
 
 - Xử lý text sản phẩm
 
@@ -175,7 +175,7 @@ Python Layer
 
 - Trực quan hóa phục vụ storytelling
 
-Notebook:
+### **Notebook:**
 
 [01_overview](notebooks/01_overview.ipynb)
 
@@ -191,13 +191,13 @@ Notebook:
 
 Tháng 9:
 
-Hai ngành Vehicle Essentials và Home & Technical Supplies tăng +6.71% ADO và +14.64% GMV MoM
+Hai ngành Vehicle Essentials và Home & Technical Supplies tăng +6.71% ADO và +14.64% AdGMV MoM
 
 ![Ảnh](image/overview_chart.png)
 
 Tuy nhiên, cấu trúc tăng trưởng khác nhau:
 
-- Vehicle Essentials tăng trưởng theo số lượng đơn hàng , phụ thuộc vào 3 top LV2 chính (đóng góp >100% mức tăng ròng)
+- Vehicle Essentials tăng trưởng theo số lượng đơn hàng, phụ thuộc vào 3 top LV2 chính (đóng góp >100% tổng mức tăng trưởng)
 
 → tăng trưởng tập trung, rủi ro phụ thuộc cao.
 
@@ -221,7 +221,7 @@ Kết luận:
 
 ## 9. Impact đạt được
 
-- Giảm thời gian chuẩn bị báo cáo từ ~40 phút xuống 10–15 phút
+- Giảm thời gian tạo báo cáo từ ~40 phút xuống 10–15 phút
 
 - Chuẩn hóa logic phân tích → giảm sai sót thủ công
 
