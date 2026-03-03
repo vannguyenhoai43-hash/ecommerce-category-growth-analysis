@@ -145,19 +145,19 @@ File: cat_pfm_pipeline.sql
 
 Tháng 9:
 
-Hai ngành Vehicle Essentials và Home & Technical Supplies tăng +6.71% ADO và +14.64% AdGMV MoM
+Hai ngành Vehicle Essentials và Home & Technical Supplies tăng trưởng tích cực, cụ thể +6.71% ADO và +14.64% AdGMV MoM
 
 ![Ảnh](image/overview_chart.png)
 
 Tuy nhiên, cấu trúc tăng trưởng khác nhau:
 
-- Vehicle Essentials tăng trưởng theo số lượng đơn hàng, phụ thuộc vào 3 top LV2 chính (đóng góp >100% tổng mức tăng trưởng)
+- Vehicle Essentials tăng trưởng theo số lượng đơn hàng, phụ thuộc vào top 3 LV2 chính (đóng góp >100% tổng mức tăng trưởng)
 
 → tăng trưởng tập trung, rủi ro phụ thuộc cao.
 
 ![Ảnh](image/vehical_diff.png)
 
-Home & Technical Supplies tăng trưởng theo giá trị đơn hàng, 3 top LV2 đóng góp ~81.9% 
+Home & Technical Supplies tăng trưởng theo giá trị đơn hàng, top 3 LV2 đóng góp ~81.9% 
 
 → cấu trúc lan tỏa và ổn định hơn.
 
