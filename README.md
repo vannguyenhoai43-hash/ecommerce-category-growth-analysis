@@ -39,6 +39,7 @@ Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do đâu 
 
 Chi tiết: [growth_driver](notebooks/03_growth_driver.ipynb)
 
+
 ### 4.2 Đánh giá chất lượng tăng trưởng
 
 Kết hợp hai yếu tố:
@@ -55,9 +56,9 @@ Phân loại LV2:
 
 - Tỷ trọng  nhỏ + tăng trưởng → Cơ hội phát triển
 
-Chi tiết: [quality_growth](notebooks/04_quality_growth.ipynb)
-
 Cách tiếp cận này giúp ưu tiên hành động thay vì chỉ nhìn vào tăng trưởng tuyệt đối.
+
+Chi tiết: [quality_growth](notebooks/04_quality_growth.ipynb)
 
 ### 4.3 Chuẩn hóa và gom nhóm sản phẩm
 
@@ -73,7 +74,7 @@ Giải pháp:
 
 - Nhóm theo từ khóa sản phẩm 
 
-Mục tiêu:
+**Mục tiêu:**
 
 - Giảm nhiễu phân tích
 
