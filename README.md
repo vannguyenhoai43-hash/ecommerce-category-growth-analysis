@@ -1,192 +1,208 @@
 # Quick Category Performance Diagnosis Framework (MoM)
 
-## 1. Tổng quan dự án
+🌐 Read this in: **English** | [Tiếng Việt](README_VI.md)
 
-**Quick Category Performance Diagnosis Framework** là một hệ thống phân tích MoM giúp chuẩn hóa quy trình review hiệu suất ngành hàng, phân rã động lực tăng trưởng và phát hiện sớm rủi ro cấu trúc.
-Framework tập trung vào phân tích tỷ trọng, chất lượng và xu hướng tăng trưởng thay vì chỉ báo cáo % thông thường.
+## 1. Project Overview
 
-## 2. Business context:
-- Dataset mô phỏng dữ liệu từ nền tảng E-commerce đa ngành.
-- Đối tượng sử dụng: Category Manager / Business Development Team.
-- KPI chính: ADO & AdGMV.
+**Quick Category Performance Diagnosis Framework** is a Month-over-Month (MoM) analytical system designed to standardize the category performance review process, decompose growth drivers, and detect structural risks early.
 
-## 3. Problem Statement:
+Instead of only reporting growth percentages, the framework focuses on analyzing **contribution weight, growth quality, and structural trends** to better understand the nature of performance changes.
 
-- MoM % không phản ánh bản chất tăng trưởng.
-- Khó xác định động lực cụ thể ở cấp LV2 & sản phẩm.
-- Không có cơ chế cảnh báo sớm rủi ro cấu trúc.
-- Review monthly còn phụ thuộc xử lý thủ công.
+---
 
-## 4. Phương pháp phân tích
+## 2. Business Context
 
-### 4.1 Phân tích tăng trưởng theo cấu trúc
+- Dataset simulates multi-industry data from an E-commerce platform.  
+- Target users: Category Managers / Business Development Team.  
+- Core KPIs: **ADO & AdGMV**.
 
-Phân tích theo mô hình drill-down:
+---
 
-Ngành hàng Level 1 → Ngành hàng Level 2 → nhóm sản phẩm (đã chuẩn hóa theo keywords)
+## 3. Problem Statement
 
-Tại mỗi cấp độ, tính:
+- MoM % alone does not reflect the true nature of growth.  
+- Difficult to identify specific drivers at LV2 and product levels.  
+- No early-warning mechanism for structural risk.  
+- Monthly reviews still rely heavily on manual processing.
 
-    Diff (Current – Previous)
+---
 
-    MoM %
+## 4. Analytical Methodology
 
-    Tỷ trọng đóng góp vào tổng tăng trưởng
+### 4.1 Structural Growth Analysis
 
-**Mục tiêu:**
+The framework applies a drill-down model:
 
-Không chỉ biết ngành tăng/giảm bao nhiêu %, mà biết tăng do đâu và mức độ phụ thuộc cao hay thấp.
+**Level 1 Category → Level 2 Category → Product Group (standardized by keywords)**
 
-Chi tiết: [growth_driver](notebooks/03_growth_driver.ipynb)
+At each level, the following metrics are calculated:
+- Diff (Current – Previous)
+- MoM %
+- Contribution Weight to Total Growth
 
+**Objective:**
 
-### 4.2 Đánh giá chất lượng tăng trưởng
+Go beyond knowing how much a category grew or declined, and understand  
+**where the growth comes from and how concentrated or diversified it is.**
 
-Kết hợp hai yếu tố:
+Details: [growth_driver](notebooks/03_growth_driver.ipynb)
 
-    Diff_ado/ Diff_gmv
+---
 
-    Tỷ trọng ADO/AdGMV
+### 4.2 Growth Quality Assessment
 
-Phân loại LV2:
+Growth quality is evaluated by combining: 
 
-- Tỷ trọng lớn + tăng trưởng → Trụ cột tăng trưởng
+- Diff_ADO / Diff_GMV
+- ADO / AdGMV Weight
+LV2 categories are classified into:
 
-- Tỷ trọng  lớn + suy giảm → Rủi ro cấu trúc
+- Large weight + Growth → Growth Pillar  
+- Large weight + Decline → Structural Risk  
+- Small weight + Growth → Growth Opportunity  
 
-- Tỷ trọng  nhỏ + tăng trưởng → Cơ hội phát triển
+This approach enables action prioritization instead of relying solely on absolute growth.
 
-Cách tiếp cận này giúp ưu tiên hành động thay vì chỉ nhìn vào tăng trưởng tuyệt đối.
+Details: [quality_growth](notebooks/04_quality_growth.ipynb)
 
-Chi tiết: [quality_growth](notebooks/04_quality_growth.ipynb)
+---
 
-### 4.3 Chuẩn hóa và gom nhóm sản phẩm
+### 4.3 Product Standardization & Keyword Grouping
 
-Dữ liệu gốc có tình trạng phân mảnh tên sản phẩm.
+Raw product names are often fragmented and inconsistent.
 
-Giải pháp:
+**Solution:**
 
-- Chuẩn hóa text
+- Standardize text  
+- Remove noise words  
+- Extract top 5 core keywords  
+- Group products based on dominant keywords  
 
-- Loại bỏ từ nhiễu
+**Objective:**
 
-- Giữ lại 5 từ khóa chính
+- Reduce analytical noise  
+- Avoid double-counting similar products  
+- Reflect real consumer behavior more accurately  
 
-- Nhóm theo từ khóa sản phẩm 
+Details: [product_keyword](notebooks/02_product_keyword.ipynb)
 
-**Mục tiêu:**
+---
 
-- Giảm nhiễu phân tích
+### 4.4 Trend, Risk & Potential Detection
 
-- Tránh đếm lặp sản phẩm cùng bản chất
+Trend logic is built based on:
 
-- Phản ánh đúng hành vi tiêu dùng
+- LV2 categories increasing/decreasing for ≥ 2 consecutive months  
+- Products with consecutive decline + significant drop + high ADO/AdGMV weight  
 
-Chi tiết: [product_keyword](notebooks/02_product_keyword.ipynb)
+This helps detect early-risk clusters that may significantly impact total ADO/AdGMV  
+before they become visible at the LV1 level.
 
-### 4.4 Xu hướng, đánh giá rủi ro và tiềm năng: 
+Details: [trend](notebooks/05_trend.ipynb)
 
-Xây dựng theo logic:
+---
 
-- LV2 tăng/giảm liên tiếp ≥ 2 tháng gần nhất
-
-- Sản phẩm tăng/giảm liên tiếp + mức giảm lớn + tỷ trọng ADO/AdGMV cao
-
-Điều này giúp phát hiện sớm các nhóm nguy cơ có ảnh hưởng tới ADO/AdGMV tổng, trước khi biểu hiện rõ ở cấp LV1.
-
-Chi tiết: [trend](notebooks/05_trend.ipynb)
-
-## 5. Dataset & Teck Stack
+## 5. Dataset & Tech Stack
 
 ### 5.1 Dataset
-Danh mục ngành hàng đã được chuẩn hoá và tái cấu trúc cho mục đích phân tích, không phản ánh hệ thống phân loại gốc của nền tảng.
-Trọng tâm dự án là phương pháp phân tích và tư duy dữ liệu.
 
-Dataset gồm:
-- 3 tháng dữ liệu
-- 2 LV1 chính
-- 20+ LV2
-- ~500.000 items record
+The category hierarchy has been standardized and restructured for analytical purposes.  
+It does not reflect the platform’s original classification system.
 
-### 5.2. Tech stack
-- SQL (Data cleaning & aggregation)
-- Google Colab (Pandas, Numpy, Matplotlib)
+The focus of the project is on analytical methodology and data-thinking.
 
-## 6. Pipeline xử lý dữ liệu
+Dataset characteristics:
 
-### **SQL Layer**
+- 3 months of data  
+- 2 main LV1 categories  
+- 20+ LV2 categories  
+- ~500,000 item-level records  
 
-- Union dữ liệu nhiều tháng
+---
 
-- Chuẩn hóa datatype
+### 5.2 Tech Stack
 
-- Tạo trường year_month
+- **SQL** (Data cleaning & aggregation)  
+- **Google Colab** (Pandas, NumPy, Matplotlib)
 
-- Aggregate theo LV2 và Product
+---
 
-- Tạo cột dữ liệu kì trước bằng window function LAG()
+## 6. Data Processing Pipeline
 
-Output: Dataset sạch, có data dữ liệu kỳ trước, phục vụ cho phân tích dữ liệu sau nay.
+### SQL Layer
 
-File: cat_pfm_pipeline.sql
+- Union multi-month datasets  
+- Standardize data types  
+- Create `year_month` field  
+- Aggregate by LV2 and Product  
+- Generate previous-period columns using `LAG()` window function  
 
-### **Python Layer**
+**Output:** Clean dataset with previous-period data ready for downstream analysis.
 
-- Xử lý text sản phẩm
+File: `cat_pfm_pipeline.sql`
 
-- Tính tỷ trọng tăng trưởng và tỷ trọng ADO/AdGMV
+---
 
-- Phân loại chất lượng tăng trưởng
+### Python Layer
 
-- Xây dựng logic cảnh báo xu hướng
+- Product text processing  
+- Growth contribution & weight calculation  
+- Growth quality classification  
+- Trend-based risk detection logic  
+- Visualization for storytelling  
 
-- Trực quan hóa phục vụ storytelling
+---
 
 ## 7. Example Insight – September
 
-Tháng 9:
+In September:
 
-Hai ngành Vehicle Essentials và Home & Technical Supplies tăng trưởng tích cực, cụ thể +6.71% ADO và +14.64% AdGMV MoM
+Two categories — **Vehicle Essentials** and **Home & Technical Supplies** — showed positive growth:  
++6.71% ADO and +14.64% AdGMV MoM.
 
-![Ảnh](image/overview_chart.png)
+![Overview](image/overview_chart.png)
 
-Tuy nhiên, cấu trúc tăng trưởng khác nhau:
+However, the growth structures differ:
 
-- Vehicle Essentials tăng trưởng theo số lượng đơn hàng, phụ thuộc vào top 3 LV2 chính (đóng góp >100% tổng mức tăng trưởng)
+- **Vehicle Essentials** grew mainly by order volume, heavily dependent on the top 3 LV2 categories  
+  (contributing >100% of total growth).
 
-→ tăng trưởng tập trung, rủi ro phụ thuộc cao.
+→ Highly concentrated growth, high dependency risk.
 
-![Ảnh](image/vehical_diff.png)
+![Vehicle](image/vehical_diff.png)
 
-Home & Technical Supplies tăng trưởng theo giá trị đơn hàng, top 3 LV2 đóng góp ~81.9% 
+- **Home & Technical Supplies** grew by order value, with top 3 LV2 contributing ~81.9%.
 
-→ cấu trúc lan tỏa và ổn định hơn.
+→ More diversified and structurally stable growth.
 
-![Ảnh](image/home_diff.png)
+![Home](image/home_diff.png)
 
-Ngoài ra:
+Additionally:
 
-- Một số LV2 có tỷ trọng ADO/AdGMV lớn nhưng giảm liên tiếp → cảnh báo rủi ro cấu trúc
+- Some LV2 categories with high ADO/AdGMV weight are declining consecutively  
+  → structural risk warning.  
 
-- Một số nhóm tăng liên tiếp ≥ 2 tháng → tín hiệu tăng trưởng bền vững
+- Some groups growing ≥ 2 consecutive months  
+  → signal of sustainable growth momentum.  
 
-Kết luận:
+**Conclusion:**
 
-- Cùng là tăng trưởng, nhưng mức độ ổn định và mức độ phụ thuộc cấu trúc khác nhau → cần chiến lược vận hành khác nhau.
+Growth alone is not enough.  
+Structural concentration and dependency levels determine sustainability and require different operational strategies.
 
-## 8. Impact đạt được
+---
 
-- Giảm thời gian review từ ~40 → 10–15 phút
+## 8. Impact Achieved
 
-- Chuẩn hóa logic phân tích → giảm sai sót thủ công
+- Reduced review time from ~40 minutes to 10–15 minutes  
+- Standardized analytical logic → minimized manual errors  
+- Enabled early detection of structural-risk categories  
+- Built a reusable framework for future reporting cycles  
+- Upgraded reporting from “descriptive numbers” to “growth explanation”
 
-- Hỗ trợ xác định sớm nhóm ngành có rủi ro cấu trúc
+---
 
-- Tạo framework tái sử dụng cho các kỳ tiếp theo
-
-- Nâng cấp báo cáo từ “mô tả số liệu” sang “giải thích bản chất tăng trưởng”
-
-## 9. CẤU TRÚC REPOSITORY
+## 9. Repository Structure
 ```text
 quick-category-performance-report/
 │
@@ -208,9 +224,9 @@ quick-category-performance-report/
     └── charts.py
 
 ```
-## 10.Báo cáo đầu ra 
-Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
+## 10. Final Output ReportBáo cáo đầu ra 
+This is the final consolidated report generated after the full data processing and analytical workflow:
 
-[BÁO CÁO CHI TIẾT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
+[DETAIL_REPORT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
 
 
