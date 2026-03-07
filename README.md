@@ -2,214 +2,163 @@
 
 🌐 Read this in: **English** | [Tiếng Việt](README_VI.md)
 
-## 1. Project Overview
+# E-commerce Category Growth Diagnosis
 
-**Quick Category Performance Diagnosis Framework** is a Month-over-Month (MoM) analytical system designed to standardize the category performance review process, decompose growth drivers, and detect structural risks early.
+## Project Overview
 
-Instead of only reporting growth percentages, the framework focuses on analyzing **contribution weight, growth quality, and structural trends** to better understand the nature of performance changes.
+**Topline MoM growth is a weak signal** when a team has to review **20+ small categories** in a short time. It shows **what changed**, but not **what drove the change, whether the growth is structurally healthy, or which groups deserve action next**.
 
----
-
-## 2. Business Context
-
-- Dataset simulates multi-industry data from an E-commerce platform.  
-- Target users: Category Managers / Business Development Team.  
-- Core KPIs: **ADO & AdGMV**.
+This project builds an **end-of-period category growth diagnosis report** for e-commerce review. Using **SQL** and **Python**, I analyzed performance from **LV2 to product level** across three layers: **Growth Driver, Growth Quality, and Growth Trend**. The output is a **decision-support report** designed for fast category review, not just descriptive reporting. 
 
 ---
 
-## 3. Problem Statement
+## Dataset
 
-- MoM % alone does not reflect the true nature of growth.  
-- Difficult to identify specific drivers at LV2 and product levels.  
-- No early-warning mechanism for structural risk.  
-- Monthly reviews still rely heavily on manual processing.
+The project uses the most recent **3 months of data**, including:
 
----
+- **2 LV1 categories**
+- **20+ LV2 categories**
+- around **500,000 item-level rows**
 
-## 4. Analytical Methodology
+Main KPIs:
 
-### 4.1 Structural Growth Analysis
+- **ADO**
+- **GMV**
 
-The framework applies a drill-down model:
-
-**Level 1 Category → Level 2 Category → Product Group (standardized by keywords)**
-
-At each level, the following metrics are calculated:
-- Diff (Current – Previous)
-- MoM %
-- Contribution Weight to Total Growth
-
-**Objective:**
-
-Go beyond knowing how much a category grew or declined, and understand  
-**where the growth comes from and how concentrated or diversified it is.**
-
-Details: [growth_driver](notebooks/03_growth_driver.ipynb)
+> **Note:** MoM compares the current month with the previous month.  
+> **Trend** is currently tracked as a **2-month consecutive signal** within the available data window. 
 
 ---
 
-### 4.2 Growth Quality Assessment
+## What I Did
 
-Growth quality is evaluated by combining: 
-
-- Diff_ADO / Diff_GMV
-- ADO / AdGMV Weight
-LV2 categories are classified into:
-
-- Large weight + Growth → Growth Pillar  
-- Large weight + Decline → Structural Risk  
-- Small weight + Growth → Growth Opportunity  
-
-This approach enables action prioritization instead of relying solely on absolute growth.
-
-Details: [quality_growth](notebooks/04_quality_growth.ipynb)
+- Cleaned and consolidated multi-month data using **SQL**
+- Standardized data for period-over-period comparison
+- Processed **item names** to group similar products under the same product group
+- Drilled down growth from **LV2 to product level**
+- Evaluated growth across **driver, quality, and trend**
+- Summarized results into a reusable **end-of-period review report** 
 
 ---
 
-### 4.3 Product Standardization & Keyword Grouping
+## Analytical Framework
 
-Raw product names are often fragmented and inconsistent.
+### 1. Growth Driver
 
-**Solution:**
+Identify which **LV2 groups** and **product groups** contribute most to category growth or decline.
 
-- Standardize text  
-- Remove noise words  
-- Extract top 5 core keywords  
-- Group products based on dominant keywords  
+**Key metrics**
+- **Diff**
+- **MoM %**
+- **Contribution to Total Growth**
 
-**Objective:**
+This layer answers:
+- which groups are driving growth
+- which groups are dragging performance
+- whether growth is overly dependent on a few major clusters 
 
-- Reduce analytical noise  
-- Avoid double-counting similar products  
-- Reflect real consumer behavior more accurately  
+Detail: [growth_driver](notebooks/03_growth_driver.ipynb)
 
-Details: [product_keyword](notebooks/02_product_keyword.ipynb)
+### 2. Growth Quality
 
----
+Growth quality is not defined by positive growth alone. It is evaluated by combining:
 
-### 4.4 Trend, Risk & Potential Detection
+- **Diff ADO / Diff GMV**
+- **ADO Weight / GMV Weight**
+- **share change by LV2**
 
-Trend logic is built based on:
+This helps distinguish between:
 
-- LV2 categories increasing/decreasing for ≥ 2 consecutive months  
-- Products with consecutive decline + significant drop + high ADO/AdGMV weight  
+- **Large weight + Growth** → core growth drivers  
+- **Small weight + Growth** → emerging opportunities  
+- **Large weight + Decline** → structural risk groups  
 
-This helps detect early-risk clusters that may significantly impact total ADO/AdGMV  
-before they become visible at the LV1 level.
+It also helps flag cases where **volume growth and value growth move differently**, which signals uneven growth quality across groups. 
 
-Details: [trend](notebooks/05_trend.ipynb)
+Detail: [quality_growth](notebooks/04_quality_growth.ipynb)
 
----
+### 3. Growth Trend
 
-## 5. Dataset & Tech Stack
+Track short-term momentum and early warning signals.
 
-### 5.1 Dataset
+**Focus areas**
+- groups growing for **2 consecutive months**
+- groups declining for **2 consecutive months**
+- high-weight groups showing significant decline
 
-The category hierarchy has been standardized and restructured for analytical purposes.  
-It does not reflect the platform’s original classification system.
+This layer is used as an **early warning signal** for end-of-period review. 
 
-The focus of the project is on analytical methodology and data-thinking.
-
-Dataset characteristics:
-
-- 3 months of data  
-- 2 main LV1 categories  
-- 20+ LV2 categories  
-- ~500,000 item-level records  
+Detail: [trend](notebooks/05_trend.ipynb)
 
 ---
 
-### 5.2 Tech Stack
+## Product Grouping Logic
 
-- **SQL** (Data cleaning & aggregation)  
-- **Google Colab** (Pandas, NumPy, Matplotlib)
+Raw item names are often inconsistent, which makes product-level analysis fragmented and noisy.
 
----
+To improve this, I built a **keyword-based grouping logic** by:
 
-## 6. Data Processing Pipeline
+- standardizing text
+- removing noise words
+- extracting core keywords
+- grouping items by dominant keyword pattern
 
-### SQL Layer
+This helps:
 
-- Union multi-month datasets  
-- Standardize data types  
-- Create `year_month` field  
-- Aggregate by LV2 and Product  
-- Generate previous-period columns using `LAG()` window function  
+- reduce analytical noise
+- avoid double-counting similar products
+- reveal the real product groups driving category growth
 
-**Output:** Clean dataset with previous-period data ready for downstream analysis.
+This step pushes the analysis closer to the **root driver at product level**, instead of stopping at category-level movement. 
 
-File: `cat_pfm_pipeline.sql`
-
----
-
-### Python Layer
-
-- Product text processing  
-- Growth contribution & weight calculation  
-- Growth quality classification  
-- Trend-based risk detection logic  
-- Visualization for storytelling  
+Detail:[product_keyword](notebooks/02_product_keyword.ipynb)
 
 ---
 
-## 7. Example Insight – September
+## Key Insights
 
-In September:
+- In **September**, both **Vehicle Essentials** and **Home & Technical Supplies** grew, but the structure behind that growth was very different. 
 
-Two categories — **Vehicle Essentials** and **Home & Technical Supplies** — showed positive growth:  
-+6.71% ADO and +14.64% AdGMV MoM.
+![Ảnh](image/overview_chart.png)
 
-![Overview](image/overview_chart.png)
+- **Vehicle Essentials** showed **high growth concentration**. Its ADO growth was mainly driven by **Safety Gear, In-car Utilities, and Vehicle Add-ons**, contributing **123.4%** of total ADO growth. On GMV, **Personal Mobility, In-car Utilities, and Vehicle Add-ons** contributed **272.8%** of total GMV growth. This points to **positive topline growth with high dependency risk**.
+- 
+![Ảnh](image/vehical_diff.png)
+- **Home & Technical Supplies** also grew, but with a **more balanced contribution structure**. Its GMV growth was mainly driven by **Construction Materials, Manual Tools, and Support Supplies**, contributing **81.9%** of total growth, suggesting a **more stable growth profile**. 
+![Ảnh](image/home_diff.png)
 
-However, the growth structures differ:
+- Growth quality becomes more actionable when size is considered. In **Vehicle Essentials**, **Safety Gear** and **In-car Utilities** were meaningful high-weight growers, while **Riding Accessories** and **Repair Components** remained large but declined. In **Home & Technical Supplies**, **Support Supplies** and **Manual Tools** stood out as strong growers, while **Heavy-duty Equipment** was a high-weight declining group. 
 
-- **Vehicle Essentials** grew mainly by order volume, heavily dependent on the top 3 LV2 categories  
-  (contributing >100% of total growth).
+- Smaller groups such as **Mechanical Parts, Vehicle Add-ons, Personal Mobility**, and **Construction Materials** grew strongly despite lower weight, making them better viewed as **watchlist opportunities** than immediate core drivers. 
 
-→ Highly concentrated growth, high dependency risk.
-
-![Vehicle](image/vehical_diff.png)
-
-- **Home & Technical Supplies** grew by order value, with top 3 LV2 contributing ~81.9%.
-
-→ More diversified and structurally stable growth.
-
-![Home](image/home_diff.png)
-
-Additionally:
-
-- Some LV2 categories with high ADO/AdGMV weight are declining consecutively  
-  → structural risk warning.  
-
-- Some groups growing ≥ 2 consecutive months  
-  → signal of sustainable growth momentum.  
-
-**Conclusion:**
-
-Growth alone is not enough.  
-Structural concentration and dependency levels determine sustainability and require different operational strategies.
+> **Main takeaway:** categories with similar topline growth can have very different **growth concentration, quality, and risk profile** — which leads to different action priorities. 
 
 ---
 
-## 8. Impact Achieved
+## Scope & Limitation
 
-- Reduced review time from ~40 minutes to 10–15 minutes  
-- Standardized analytical logic → minimized manual errors  
-- Enabled early detection of structural-risk categories  
-- Built a reusable framework for future reporting cycles  
-- Upgraded reporting from “descriptive numbers” to “growth explanation”
+This project is designed for **quick end-of-period diagnosis**, not long-horizon forecasting or full root-cause analysis.
+
+Because the current data window covers **3 months**, the **trend layer** should be read as an **early signal**, not a long-term conclusion. The framework is meant to support prioritization, with room to become stronger as more historical data is added. 
 
 ---
 
-## 9. Repository Structure
+## Deliverables
+
+- **SQL pipeline** for data cleaning and consolidation
+- **Colab notebooks** for each analysis module
+- **Charts** for quick category review
+- **End-of-period category growth report** 
+
+---
+
+## Repository Structure
+
 ```text
-quick-category-performance-report/
-│
+ecommerce-category-growth-analysis/
 ├── README.md
 ├── sql/
 │   └── cat_pfm_pipeline.sql
-│
 ├── notebooks/
 │   ├── 01_overview.ipynb
 │   ├── 02_product_keyword.ipynb
@@ -217,16 +166,9 @@ quick-category-performance-report/
 │   ├── 04_quality_growth.ipynb
 │   ├── 05_trend.ipynb
 │   └── cat_quick_report.ipynb
-│
-└── src/
-    ├── load_data.py
-    ├── metrics.py
-    └── charts.py
-
-```
-## 10. Final Output ReportBáo cáo đầu ra 
-This is the final consolidated report generated after the full data processing and analytical workflow:
-
-[DETAIL_REPORT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
-
+├── src/
+│   ├── load_data.py
+│   ├── metrics.py
+│   └── charts.py
+└── report_cat.html
 
