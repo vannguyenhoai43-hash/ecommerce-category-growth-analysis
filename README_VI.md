@@ -1,29 +1,29 @@
-# Phân tích Tăng trưởng Ngành hàng E-commerce
+# Phân tích Nhanh Tăng trưởng Ngành hàng E-commerce 
 
 🌐 Đọc bằng: [English](README.md) | **Tiếng Việt**
 
 ## Tổng quan dự án
 
-**Tăng trưởng MoM ở topline là một tín hiệu yếu** khi một team phải review **hơn 20 ngành hàng nhỏ** trong thời gian ngắn. Chỉ số này cho biết **điều gì đã thay đổi**, nhưng không cho thấy **đâu là yếu tố thúc đẩy sự thay đổi, liệu tăng trưởng có lành mạnh về mặt cấu trúc hay không, hoặc nhóm nào cần được ưu tiên hành động tiếp theo**.
+Khi phải đánh giá **hơn 20 ngành hàng nhỏ** trong thời gian ngắn, **tăng trưởng MoM tổng thể** thường không đủ để phản ánh đầy đủ chất lượng tăng trưởng. Chỉ số này cho biết **điều gì đã thay đổi**, nhưng không cho thấy **đâu là yếu tố thúc đẩy thay đổi, liệu tăng trưởng có lành mạnh về mặt cấu trúc hay không, và nhóm nào cần được ưu tiên hành động tiếp theo**.
 
-Dự án này xây dựng một **báo cáo chẩn đoán tăng trưởng ngành hàng cuối kỳ** phục vụ cho hoạt động review trong e-commerce. Bằng cách sử dụng **SQL** và **Python**, tôi phân tích hiệu suất từ **LV2 đến cấp độ sản phẩm** qua ba lớp: **Động lực tăng trưởng, Chất lượng tăng trưởng và Xu hướng tăng trưởng**. Kết quả đầu ra là một **báo cáo hỗ trợ ra quyết định** được thiết kế cho việc review ngành hàng nhanh, không chỉ dừng ở báo cáo mô tả.
+Dự án này xây dựng một **báo cáo phân tích tăng trưởng ngành hàng vào cuối kỳ** phục vụ cho hoạt động review trong e-commerce. Bằng việc sử dụng **SQL** và **Python**, tôi phân tích hiệu suất từ **LV2 đến cấp độ sản phẩm** qua ba lớp: **Động lực tăng trưởng, Chất lượng tăng trưởng và Xu hướng tăng trưởng**. Kết quả đầu ra là một **báo cáo hỗ trợ ra quyết định** được thiết kế cho nhu cầu review ngành hàng nhanh, thay vì chỉ dừng lại ở báo cáo mô tả.
 
 ---
 
 ## Bộ dữ liệu
 
 Dự án sử dụng dữ liệu của **3 tháng gần nhất**, bao gồm:
-
+- **3 tháng dữ liệu**
 - **2 ngành hàng LV1**
 - **20+ ngành hàng LV2**
-- khoảng **500.000 dòng dữ liệu ở cấp độ item**
+- Hơn **500.000 dòng dữ liệu ở cấp độ item**
 
 Các KPI chính:
 
 - **ADO**
 - **GMV**
 
-> **Lưu ý:** MoM là so sánh giữa tháng hiện tại và tháng trước đó.  
+> **Lưu ý:** MoM là so sánh giữa tháng hiện tại và tháng liền trước.  
 > **Trend** hiện được theo dõi dưới dạng **tín hiệu liên tiếp trong 2 tháng** trong phạm vi cửa sổ dữ liệu hiện có.
 
 ---
@@ -32,44 +32,48 @@ Các KPI chính:
 
 - Làm sạch và hợp nhất dữ liệu nhiều tháng bằng **SQL**
 - Chuẩn hóa dữ liệu để phục vụ so sánh giữa các kỳ
-- Xử lý **tên item** để nhóm các sản phẩm tương tự vào cùng một nhóm sản phẩm
+- Xử lý **tên item** nhằm nhóm các sản phẩm tương đồng vào cùng một nhóm sản phẩm
 - Phân rã tăng trưởng từ **LV2 xuống cấp độ sản phẩm**
 - Đánh giá tăng trưởng theo ba khía cạnh: **động lực, chất lượng và xu hướng**
 - Tổng hợp kết quả thành một **báo cáo review cuối kỳ** có thể tái sử dụng
 
 ---
 
-## Khung phân tích
+## Cấu trúc phân tích:
 
 ### 1. Động lực tăng trưởng
 
-Xác định những **nhóm LV2** và **nhóm sản phẩm** đóng góp nhiều nhất vào tăng trưởng hoặc suy giảm của ngành hàng.
+Xác định những **nhóm LV2** và **nhóm sản phẩm** đóng góp lớn nhất vào tăng trưởng hoặc suy giảm của ngành hàng.
 
 **Các chỉ số chính**
 - **Diff**
 - **MoM %**
 - **Mức đóng góp vào tăng trưởng tổng**
 
-Lớp phân tích này trả lời:
+Lớp phân tích này giúp trả lời:
 - nhóm nào đang thúc đẩy tăng trưởng
-- nhóm nào đang kéo hiệu suất đi xuống
-- liệu tăng trưởng có đang phụ thuộc quá nhiều vào một vài cụm lớn hay không
+- nhóm nào đang kéo giảm hiệu suất
+- liệu tăng trưởng có đang phụ thuộc quá mức vào một vài cụm lớn hay không
+
+Chi tiết: [growth_driver](notebooks/03_growth_driver.ipynb)
 
 ### 2. Chất lượng tăng trưởng
 
-Chất lượng tăng trưởng không được xác định chỉ bằng việc tăng trưởng dương. Nó được đánh giá thông qua việc kết hợp:
+Chất lượng tăng trưởng không được xác định chỉ bởi tăng trưởng dương. Thay vào đó, nó được đánh giá thông qua việc kết hợp:
 
 - **Diff ADO / Diff GMV**
 - **ADO Weight / GMV Weight**
 - **mức thay đổi tỷ trọng theo LV2**
 
-Cách tiếp cận này giúp phân biệt giữa:
+Cách tiếp cận này giúp phân biệt:
 
-- **Tỷ trọng lớn + Tăng trưởng** → động lực tăng trưởng cốt lõi  
-- **Tỷ trọng nhỏ + Tăng trưởng** → cơ hội mới nổi  
+- **Tỷ trọng lớn + Tăng trưởng** → tăng trưởng cốt lõi  
+- **Tỷ trọng nhỏ + Tăng trưởng** → cơ hội tăng trưởng mới nổi  
 - **Tỷ trọng lớn + Suy giảm** → nhóm rủi ro mang tính cấu trúc  
 
-Đồng thời, nó cũng giúp làm rõ những trường hợp mà **tăng trưởng về sản lượng và tăng trưởng về giá trị diễn biến khác nhau**, từ đó phản ánh chất lượng tăng trưởng không đồng đều giữa các nhóm.
+Đồng thời, lớp này cũng giúp nhận diện những trường hợp mà **tăng trưởng về sản lượng và tăng trưởng về giá trị diễn biến khác chiều**, qua đó phản ánh sự không đồng đều về chất lượng tăng trưởng giữa các nhóm.
+
+Chi tiết: [quality_growth](notebooks/04_quality_growth.ipynb)
 
 ### 3. Xu hướng tăng trưởng
 
@@ -78,20 +82,22 @@ Theo dõi động lượng ngắn hạn và các tín hiệu cảnh báo sớm.
 **Các trọng tâm theo dõi**
 - nhóm tăng trưởng trong **2 tháng liên tiếp**
 - nhóm suy giảm trong **2 tháng liên tiếp**
-- nhóm có tỷ trọng lớn đang suy giảm mạnh
+- nhóm có tỷ trọng lớn nhưng ghi nhận mức suy giảm đáng kể
 
 Lớp phân tích này được sử dụng như một **tín hiệu cảnh báo sớm** cho hoạt động review cuối kỳ.
+
+Chi tiết: [trend](notebooks/05_trend.ipynb)
 
 ---
 
 ## Logic nhóm sản phẩm
 
-Tên item gốc thường không nhất quán, khiến phân tích ở cấp độ sản phẩm bị phân mảnh và nhiễu.
+Tên item thô thường thiếu tính nhất quán, khiến phân tích ở cấp độ sản phẩm dễ bị phân mảnh và nhiễu.
 
-Để cải thiện điều này, tôi xây dựng một **logic nhóm sản phẩm dựa trên từ khóa** bằng cách:
+Để cải thiện điều này, tôi xây dựng một **logic nhóm sản phẩm dựa trên từ khóa** thông qua các bước:
 
 - chuẩn hóa văn bản
-- loại bỏ từ gây nhiễu
+- loại bỏ các từ gây nhiễu
 - trích xuất từ khóa cốt lõi
 - nhóm item theo mẫu từ khóa chi phối
 
@@ -101,31 +107,39 @@ Cách làm này giúp:
 - tránh đếm trùng các sản phẩm tương tự
 - làm rõ những nhóm sản phẩm thực sự đang thúc đẩy tăng trưởng ngành hàng
 
-Bước này giúp phân tích tiến gần hơn tới **động lực gốc ở cấp độ sản phẩm**, thay vì chỉ dừng lại ở biến động cấp ngành hàng.
+Bước này giúp đưa phân tích tiến gần hơn tới **động lực gốc ở cấp độ sản phẩm**, thay vì chỉ dừng lại ở biến động cấp ngành hàng.
+
+Chi tiết: [product_keyword](notebooks/02_product_keyword.ipynb)
 
 ---
 
-## Các insight chính
+## Các phát hiện chính
 
-- Trong **tháng 9**, cả **Vehicle Essentials** và **Home & Technical Supplies** đều tăng trưởng, nhưng cấu trúc phía sau mức tăng đó lại rất khác nhau.
+- Trong **tháng 9**, cả **Vehicle Essentials** và **Home & Technical Supplies** đều tăng trưởng, nhưng cấu trúc phía sau tăng trưởng của hai ngành này lại rất khác nhau.
 
-- **Vehicle Essentials** cho thấy **mức độ tập trung tăng trưởng cao**. Tăng trưởng ADO của ngành này chủ yếu đến từ **Safety Gear, In-car Utilities và Vehicle Add-ons**, đóng góp **123,4%** tổng tăng trưởng ADO. Ở GMV, **Personal Mobility, In-car Utilities và Vehicle Add-ons** đóng góp **272,8%** tổng tăng trưởng GMV. Điều này cho thấy **topline tăng trưởng dương nhưng đi kèm rủi ro phụ thuộc cao**.
+![Ảnh](image/overview_chart.png)
 
-- **Home & Technical Supplies** cũng tăng trưởng, nhưng với **cấu trúc đóng góp cân bằng hơn**. Tăng trưởng GMV của ngành này chủ yếu đến từ **Construction Materials, Manual Tools và Support Supplies**, đóng góp **81,9%** tổng tăng trưởng, cho thấy một **hồ sơ tăng trưởng ổn định hơn**.
+- **Vehicle Essentials** cho thấy **mức độ tập trung tăng trưởng cao**. Tăng trưởng ADO của ngành này chủ yếu đến từ **Safety Gear, In-car Utilities và Vehicle Add-ons**, đóng góp **123,4%** tổng tăng trưởng ADO. Ở GMV, **Personal Mobility, In-car Utilities và Vehicle Add-ons** đóng góp **272,8%** tổng tăng trưởng GMV. Điều này cho thấy **tăng trưởng tổng thể tích cực nhưng đi kèm rủi ro phụ thuộc cao**.
 
-- Chất lượng tăng trưởng trở nên hữu ích hơn cho việc hành động khi quy mô được đưa vào xem xét. Ở **Vehicle Essentials**, **Safety Gear** và **In-car Utilities** là những nhóm tăng trưởng đáng chú ý với tỷ trọng lớn, trong khi **Riding Accessories** và **Repair Components** vẫn có quy mô lớn nhưng đang suy giảm. Ở **Home & Technical Supplies**, **Support Supplies** và **Manual Tools** nổi bật là các nhóm tăng trưởng mạnh, trong khi **Heavy-duty Equipment** là một nhóm có tỷ trọng lớn nhưng đang suy giảm.
+![Ảnh](image/vehical_diff.png)
+
+- **Home & Technical Supplies** cũng tăng trưởng, nhưng với **cấu trúc đóng góp cân bằng hơn**. Tăng trưởng GMV của ngành này chủ yếu đến từ **Construction Materials, Manual Tools và Support Supplies**, đóng góp **81,9%** tổng tăng trưởng, qua đó cho thấy một **hồ sơ tăng trưởng ổn định hơn**.
+
+![Ảnh](image/home_diff.png)
+
+- Chất lượng tăng trưởng trở nên hữu ích hơn cho việc ra quyết định khi được đặt trong tương quan với quy mô. Ở **Vehicle Essentials**, **Safety Gear** và **In-car Utilities** là những nhóm tăng trưởng đáng chú ý với tỷ trọng lớn, trong khi **Riding Accessories** và **Repair Components** vẫn có quy mô lớn nhưng đang suy giảm. Ở **Home & Technical Supplies**, **Support Supplies** và **Manual Tools** nổi bật là các nhóm tăng trưởng mạnh, trong khi **Heavy-duty Equipment** là một nhóm có tỷ trọng lớn nhưng đang suy giảm.
 
 - Những nhóm nhỏ hơn như **Mechanical Parts, Vehicle Add-ons, Personal Mobility** và **Construction Materials** tăng trưởng mạnh dù có tỷ trọng thấp hơn, vì vậy phù hợp hơn để được xem là **nhóm cần theo dõi** thay vì ngay lập tức coi là động lực tăng trưởng cốt lõi.
 
-> **Kết luận chính:** những ngành hàng có mức tăng trưởng topline tương tự nhau vẫn có thể có **mức độ tập trung tăng trưởng, chất lượng tăng trưởng và hồ sơ rủi ro** rất khác nhau — từ đó dẫn đến các ưu tiên hành động khác nhau.
+> **Kết luận chính:** những ngành hàng có mức tăng trưởng tổng thể tương tự nhau vẫn có thể có **mức độ tập trung tăng trưởng, chất lượng tăng trưởng và hồ sơ rủi ro** rất khác nhau — từ đó dẫn đến các ưu tiên hành động khác nhau.
 
 ---
 
-## Phạm vi & Hạn chế
+## Phạm vi và hạn chế
 
-Dự án này được thiết kế cho mục tiêu **chẩn đoán nhanh vào cuối kỳ**, không nhằm phục vụ dự báo dài hạn hay phân tích nguyên nhân gốc rễ một cách đầy đủ.
+Dự án này được thiết kế cho mục tiêu **phân tích nhanh vào cuối kỳ**, không nhằm phục vụ dự báo dài hạn hay phân tích nguyên nhân gốc rễ một cách toàn diện.
 
-Vì cửa sổ dữ liệu hiện tại chỉ bao gồm **3 tháng**, lớp **xu hướng** nên được hiểu là một **tín hiệu sớm**, chứ chưa phải kết luận dài hạn. Khung phân tích này được xây dựng để hỗ trợ việc ưu tiên hành động, và có thể trở nên mạnh hơn khi được bổ sung thêm dữ liệu lịch sử.
+Do cửa sổ dữ liệu hiện tại chỉ bao gồm **3 tháng**, lớp **xu hướng** nên được hiểu là một **tín hiệu sớm**, chứ chưa phải kết luận dài hạn. Khung phân tích này được xây dựng để hỗ trợ việc ưu tiên hành động, và có thể trở nên mạnh hơn khi được bổ sung thêm dữ liệu lịch sử.
 
 ---
 
@@ -134,7 +148,7 @@ Vì cửa sổ dữ liệu hiện tại chỉ bao gồm **3 tháng**, lớp **xu
 - **Pipeline SQL** cho làm sạch và hợp nhất dữ liệu
 - **Colab notebooks** cho từng mô-đun phân tích
 - **Biểu đồ** phục vụ review ngành hàng nhanh
-- **Báo cáo chẩn đoán tăng trưởng ngành hàng cuối kỳ**
+- **Báo cáo phân tích tăng trưởng ngành hàng cuối kỳ**
 
 ---
 
@@ -157,3 +171,9 @@ ecommerce-category-growth-analysis/
 │   ├── metrics.py
 │   └── charts.py
 └── report_cat.html
+```
+---
+## 10.Báo cáo đầu ra 
+Đây là phiên bản báo cáo tổng hợp cuối cùng sau quá trình xử lý và phân tích dữ liệu
+
+[BÁO CÁO CHI TIẾT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
