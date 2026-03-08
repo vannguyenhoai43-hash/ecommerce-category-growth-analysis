@@ -2,8 +2,6 @@
 
 🌐 Read this in: **English** | [Tiếng Việt](README_VI.md)
 
-# E-commerce Category Growth Diagnosis
-
 ## Project Overview
 
 **Topline MoM growth is a weak signal** when a team has to review **20+ small categories** in a short time. It shows **what changed**, but not **what drove the change, whether the growth is structurally healthy, or which groups deserve action next**.
