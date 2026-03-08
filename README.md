@@ -122,9 +122,11 @@ Detail:[product_keyword](notebooks/02_product_keyword.ipynb)
 ![Ảnh](image/overview_chart.png)
 
 - **Vehicle Essentials** showed **high growth concentration**. Its ADO growth was mainly driven by **Safety Gear, In-car Utilities, and Vehicle Add-ons**, contributing **123.4%** of total ADO growth. On GMV, **Personal Mobility, In-car Utilities, and Vehicle Add-ons** contributed **272.8%** of total GMV growth. This points to **positive topline growth with high dependency risk**.
-- 
+ 
 ![Ảnh](image/vehical_diff.png)
-- **Home & Technical Supplies** also grew, but with a **more balanced contribution structure**. Its GMV growth was mainly driven by **Construction Materials, Manual Tools, and Support Supplies**, contributing **81.9%** of total growth, suggesting a **more stable growth profile**. 
+
+- **Home & Technical Supplies** also grew, but with a **more balanced contribution structure**. Its GMV growth was mainly driven by **Construction Materials, Manual Tools, and Support Supplies**, contributing **81.9%** of total growth, suggesting a **more stable growth profile**.
+
 ![Ảnh](image/home_diff.png)
 
 - Growth quality becomes more actionable when size is considered. In **Vehicle Essentials**, **Safety Gear** and **In-car Utilities** were meaningful high-weight growers, while **Riding Accessories** and **Repair Components** remained large but declined. In **Home & Technical Supplies**, **Support Supplies** and **Manual Tools** stood out as strong growers, while **Heavy-duty Equipment** was a high-weight declining group. 
