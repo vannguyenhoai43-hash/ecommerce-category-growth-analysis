@@ -1,4 +1,4 @@
-# Chẩn đoán Tăng trưởng Ngành hàng E-commerce
+# Phân tích Tăng trưởng Ngành hàng E-commerce
 
 🌐 Đọc bằng: [English](README.md) | **Tiếng Việt**
 
