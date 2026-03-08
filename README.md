@@ -171,6 +171,8 @@ ecommerce-category-growth-analysis/
 │   ├── metrics.py
 │   └── charts.py
 └── report_cat.html
+
+```
 ---
 
 ## Final Output Report
