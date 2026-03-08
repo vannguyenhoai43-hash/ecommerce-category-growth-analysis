@@ -1,4 +1,4 @@
-# Quick Category Performance Diagnosis Framework (MoM)
+# E-commerce Category Growth Diagnosis Framework
 
 🌐 Read this in: **English** | [Tiếng Việt](README_VI.md)
 
