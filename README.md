@@ -171,4 +171,9 @@ ecommerce-category-growth-analysis/
 │   ├── metrics.py
 │   └── charts.py
 └── report_cat.html
+---
 
+## Final Output Report
+This is the final consolidated report generated after the full data processing and analytical workflow:
+
+[DETAIL_REPORT](https://vannguyenhoai43-hash.github.io/ecommerce-category-growth-analysis/report_cat.html)
