@@ -15,10 +15,10 @@ This project builds an **end-of-period category growth diagnosis report** for e-
 ## Dataset
 
 The project uses the most recent **3 months of data**, including:
-
+- **3 months**
 - **2 LV1 categories**
 - **20+ LV2 categories**
-- around **500,000 item-level rows**
+- over **500,000 item-level rows**
 
 Main KPIs:
 
