@@ -4,7 +4,7 @@
 
 ## Tổng quan dự án
 
-Khi phải đánh giá **hơn 20 ngành hàng nhỏ** trong thời gian ngắn, **tăng trưởng MoM tổng thể** thường không đủ để phản ánh đầy đủ chất lượng tăng trưởng. Chỉ số này cho biết **điều gì đã thay đổi**, nhưng không cho thấy **đâu là yếu tố thúc đẩy thay đổi, liệu tăng trưởng có lành mạnh về mặt cấu trúc hay không, và nhóm nào cần được ưu tiên hành động tiếp theo**.
+Khi phải đánh giá **hơn 17 ngành hàng nhỏ** trong thời gian ngắn, **tăng trưởng MoM tổng thể** thường không đủ để phản ánh đầy đủ chất lượng tăng trưởng. Chỉ số này cho biết **điều gì đã thay đổi**, nhưng không cho thấy **đâu là yếu tố thúc đẩy thay đổi, liệu tăng trưởng có lành mạnh về mặt cấu trúc hay không, và nhóm nào cần được ưu tiên hành động tiếp theo**.
 
 Dự án này xây dựng một **báo cáo phân tích tăng trưởng ngành hàng vào cuối kỳ** phục vụ cho hoạt động review trong e-commerce. Bằng việc sử dụng **SQL** và **Python**, tôi phân tích hiệu suất từ **LV2 đến cấp độ sản phẩm** qua ba lớp: **Động lực tăng trưởng, Chất lượng tăng trưởng và Xu hướng tăng trưởng**. Kết quả đầu ra là một **báo cáo hỗ trợ ra quyết định** được thiết kế cho nhu cầu review ngành hàng nhanh, thay vì chỉ dừng lại ở báo cáo mô tả.
 
@@ -15,7 +15,7 @@ Dự án này xây dựng một **báo cáo phân tích tăng trưởng ngành h
 Dự án sử dụng dữ liệu của **3 tháng gần nhất**, bao gồm:
 - **3 tháng dữ liệu**
 - **2 ngành hàng LV1**
-- **20+ ngành hàng LV2**
+- **17 ngành hàng LV2**
 - Hơn **500.000 dòng dữ liệu ở cấp độ item**
 
 Các KPI chính:
