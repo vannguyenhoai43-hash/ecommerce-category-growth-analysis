@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-**Topline MoM growth is a weak signal** when a team has to review **20+ small categories** in a short time. It shows **what changed**, but not **what drove the change, whether the growth is structurally healthy, or which groups deserve action next**.
+**Topline MoM growth is a weak signal** when a team has to review **17+ small categories** in a short time. It shows **what changed**, but not **what drove the change, whether the growth is structurally healthy, or which groups deserve action next**.
 
 This project builds an **end-of-period category growth diagnosis report** for e-commerce review. Using **SQL** and **Python**, I analyzed performance from **LV2 to product level** across three layers: **Growth Driver, Growth Quality, and Growth Trend**. The output is a **decision-support report** designed for fast category review, not just descriptive reporting. 
 
